@@ -3,9 +3,6 @@ import java.io.File;
 import java.io.FileReader;
 import javax.swing.JFrame;
 
-import java.awt.*;
-
-
 // ゲーム画面表示
 // プレイヤー表示
 public class GameScene extends JFrame{
