@@ -1,20 +1,20 @@
-import javax.swing.JPanel;
-import java.awt.*;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+public class PlayerVisible{
+  // インスタンス生成
+  ImageIcon icon1 = new ImageIcon("./img/character/Player(仮).png");
+  JLabel player_lbl = new JLabel(icon1);
 
-public class PlayerVisible extends JPanel{
-  // 画像読み込み
-  Image player_img = Toolkit.getDefaultToolkit().getImage("./img/character/Player(仮).png");
   public int player_x ;
   public int player_y ;
+
   PlayerVisible(int x, int y){
     player_x = x;
     player_y = y;
+    player_lbl.setBounds(player_x,player_y,50, 100);
   }
 
-  @Override
-  public void paintComponent(Graphics g) {
-    super.paintComponent(g);
-    // 画像の表示
-    g.drawImage(player_img, player_x, player_y, this);
+  public JLabel get(){
+    return player_lbl;
   }
 }

@@ -1,2 +1,2 @@
-javac -encoding UTF-8 Main.java
+javac -encoding UTF-8 *.java
 java Main
