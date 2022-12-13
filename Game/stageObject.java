@@ -50,6 +50,8 @@ class StageObject extends Observable {
     // 衝突判定の読み込みを必須にするかどうかのフラグ管理ここから
     public void set_collision_load_flag(boolean flag) {
         this.collision_load_required = flag;
+        setChanged();
+        notifyObservers();
     }
     public boolean is_collision_load_required() {
         return this.collision_load_required;
