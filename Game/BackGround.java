@@ -3,7 +3,7 @@ import javax.swing.JLabel;
 
 /**
  * BackGround描画用クラス
- * 水色にしといた装
+ * 水色にしといた
  * 
  * @author 綾部
  */

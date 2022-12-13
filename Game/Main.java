@@ -6,7 +6,7 @@ public class Main {
    * @author 綾部
    */
   public static void main(String[] args) {
-    GameScene gw = new GameScene("テストウィンドウ");
+    MasterScene gw = new MasterScene("ゲームウインドウ");
     gw.setVisible(true);
   }
 }

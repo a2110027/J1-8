@@ -31,7 +31,7 @@ class Human extends StageObject {
             return false;
         }
     }
-    public boolean jamp() {
+    public boolean jump() {
         if (this.is_collision()) {
             this.y -= 10;
             setChanged();
@@ -62,6 +62,8 @@ class Player extends Human {
     public Player(int x, int y, int width, int height, StageObjectsList stage_obj_list) {
         super(x, y, width, height, stage_obj_list);
     }
+
+    
 }
 
 

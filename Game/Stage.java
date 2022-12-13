@@ -19,7 +19,7 @@ public class Stage extends JPanel {
 
   // ファイル読み込み
   BufferedReader br = null;
-  String object_file = "Stage.csv";
+  String object_file = "./Stage/Stage.csv";
 
   // ステージのサイズ。仮にウインドウのサイズ分にした。
   final int MAX_DATA_NUM_WIDTH = 20;
