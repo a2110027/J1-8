@@ -1,73 +1,56 @@
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import javax.swing.JFrame;
+import javax.swing.*;
+import java.awt.*;
 
-// ゲーム画面表示
-// プレイヤー表示
-public class GameScene extends JFrame{
+/**
+ * プレイヤー描画
+ * ステージ描画
+ * 背景描画
+ * 
+ * @author 綾部
+ */
+public class GameScene extends JFrame {
 
   // インスタンス生成
-  PlayerVisible pl = new PlayerVisible(50,300);
-  Block bl = new Block(50,100);
+  PlayerVisible pl = new PlayerVisible(50, 300);
+  Stage st = new Stage();
+  BackGround bg = new BackGround();
+  JLayeredPane p = new JLayeredPane();
 
-  // ファイル読み込み
-  BufferedReader br = null;
-  String object_file = "Stage.csv";
-  final int MAX_DATA_NUM = 200;
-
-  String[][] stage_data = new String[MAX_DATA_NUM][];
-  Block[][] block = new Block[MAX_DATA_NUM][MAX_DATA_NUM];
-
-
+  /**
+   * コンストラクタ
+   * 
+   * @param title JFrame(フォーム)のタイトル
+   * @author 綾部
+   */
   public GameScene(String title) {
-		super(title);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setSize(1000,500);
-		setLocationRelativeTo(null);
-		setResizable(false);
+    super(title);
+    setDefaultCloseOperation(EXIT_ON_CLOSE);
+    setSize(1000, 500);
+    setLocationRelativeTo(null);
+    setResizable(false);
+    p.setLayout(null);
 
-    // ステージを表示させる予定
-    stage_object();
-    // プレイヤーをフレームに追加
-    getContentPane().add( pl );
-	}
+    // 背景描画 layerは1
+    p.add(bg.get_background());
+    p.setLayer(bg.get_background(), 1);
 
 
-  // csvファイルを読み込み、stage_dataに格納
-  // Blockの画像を表示させられていない。
-  public void stage_object(){
-    try{
-      File stage = new File(object_file);
-      br = new BufferedReader(new FileReader(stage));
-      String line;
-      int index = 0;
-      while((line = br.readLine()) != null){
-        stage_data[index] = line.split(",");
-        index++;
+    // ステージ描画 Layerは2
+    JLabel[][] ar = st.stage_object();
+    for (int i = 0; i < 10; i++) {
+      for (int j = 0; j < 20; j++) {
+        p.add(ar[i][j]);
+        p.setLayer(ar[i][j], 2);
       }
-    }catch(Exception e){
-      System.out.println(e.getMessage());
     }
 
+    // Player描画 Layerは3
+    p.add(pl.get());
+    p.setLayer(pl.get(),3);
 
-    for(int i = 0; i< MAX_DATA_NUM; i++){
-      if(stage_data[i] == null) break;
-      for(int j = 0; j<stage_data[i].length; j++){
-        if(stage_data[i][j] == null) break;
 
-        if(stage_data[i][j].equals("1")){
-          block[i][j] = new Block(j*50,i*50);
-          add(block[i][j]);
-        }
-        // [i][j]に正しく入っているか確認用
-        // System.out.print(stage_data[i][j]+" "); 
-      }
-      
-      //System.out.println();
-    }
-
+    // JFrame のコンポーネントを取得し、JPanelを追加する。
+    Container contentPane = getContentPane();
+    contentPane.add(p);
   }
-
-
 }
