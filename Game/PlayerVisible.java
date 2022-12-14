@@ -53,6 +53,5 @@ public class PlayerVisible extends JFrame{
     player_x = x;
     player_y = y;
     player_lbl.setBounds(x,y, 50, 100);
-    repaint();
   }
 }

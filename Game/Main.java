@@ -5,8 +5,13 @@ public class Main {
    * 
    * @author 綾部
    */
+
   public static void main(String[] args) {
-    MasterScene gw = new MasterScene("ゲームウインドウ");
+    GameScene gw = new GameScene();
     gw.setVisible(true);
+
+    KeyController kc = new KeyController();
+    gw.addKeyListener(kc);
+
   }
 }

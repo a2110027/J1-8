@@ -16,7 +16,6 @@ public class KeyController implements KeyListener {
     // esc,上下左右,vキー(書き換えメニュー)の入力受付
     @Override
     public void keyPressed(KeyEvent e) {
-        System.out.println("A");
         // 関数名は適当
         switch (e.getKeyCode()) {
             case KeyEvent.VK_UP:
