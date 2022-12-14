@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
-
+import java.util.Timer;
+import java.util.TimerTask;
 /**
  * プレイヤー描画
  * ステージ描画
@@ -11,10 +12,12 @@ import java.awt.*;
 public class GameScene extends JFrame {
 
   // インスタンス生成
-  PlayerVisible pl = new PlayerVisible();
+  PlayerVisible pl = PlayerVisible.get_instance();
   Stage st = new Stage();
   BackGround bg = new BackGround();
   JLayeredPane p = new JLayeredPane();
+  Timer tm = new Timer();
+  Container contentPane = getContentPane();
   /**
    * コンストラクタ
    * 
@@ -28,6 +31,13 @@ public class GameScene extends JFrame {
     setResizable(false);
     p.setLayout(null);
     pl.set(50,300);
+
+    tm.scheduleAtFixedRate(new TimerTask() {
+			@Override
+			public void run() {
+        reload();
+			}
+		},  0, 50);
 
     // 背景描画 layerは1
     p.add(bg.get_background());
@@ -47,8 +57,17 @@ public class GameScene extends JFrame {
     p.add(pl.get());
     p.setLayer(pl.get(),3);
 
-    // JFrame のコンポーネントを取得し、JLayeredPaneを追加する。
-    Container contentPane = getContentPane();
+    // 描画
     contentPane.add(p);
+  }
+  /**
+   * プレイヤーのみ再描画
+   * 
+   */
+  public void reload(){
+    p.add(pl.get());
+    p.setLayer(pl.get(),3);
+    contentPane.add(p);
+    contentPane.repaint();
   }
 }

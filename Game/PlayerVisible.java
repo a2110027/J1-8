@@ -13,10 +13,10 @@ public class PlayerVisible extends JFrame{
   // インスタンス生成
   ImageIcon icon1 = new ImageIcon("./img/character/Player(仮).png");
   JLabel player_lbl = new JLabel(icon1);
+  private static PlayerVisible pv = new PlayerVisible();
 
   public int player_x;
   public int player_y;
-  public int direction;
 
 /**
  * コンストラクタ
@@ -34,6 +34,16 @@ public class PlayerVisible extends JFrame{
    */
   public JLabel get() {
     return player_lbl;
+  }
+  /**
+   * これを使って生成することで、どこからでも自由にplayer_x, player_yを変更することが出来る。
+   * 速度とかも持たせる予定だから、オブジェクトを返さなくてはいけない
+   * 
+   * @author 綾部
+   * @return 生成されたオブジェクトを返す
+   */
+  public static PlayerVisible get_instance(){
+    return pv;
   }
 
   public int get_x() {
