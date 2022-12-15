@@ -62,10 +62,10 @@ class StageObject extends Observable {
 
     // 衝突判定ここから
     public boolean is_collision() {
-        for (StageObject collision_obj : stage_obj_list.get_collision_list(this.range_x, this.range_y)) {
+        // for (StageObject collision_obj : stage_obj_list.get_collision_list(this.range_x, this.range_y)) {
             
-        }
-        return true;
+        // }
+        return false;
     }
     // 衝突判定ここまで
 }
