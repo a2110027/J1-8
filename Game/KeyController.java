@@ -19,19 +19,19 @@ public class KeyController implements KeyListener {
         // 関数名は適当
         switch (e.getKeyCode()) {
             case KeyEvent.VK_UP:
-                // player.jump();
+                player.jump();
                 System.out.println("jump");
                 break;
             case KeyEvent.VK_DOWN:
-                // player.move_bottom();
+                player.move_bottom();
                 System.out.println("down");
                 break;
             case KeyEvent.VK_LEFT:
-                // player.move_left();
+                player.move_left();
                 System.out.println("left");
                 break;
             case KeyEvent.VK_RIGHT:
-                // player.move_right();
+                player.move_right();
                 System.out.println("right");
                 break;
             case KeyEvent.VK_V:
