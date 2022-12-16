@@ -7,18 +7,22 @@ public class Human extends StageObject implements ActionListener {
     protected Speed speed;
     private javax.swing.Timer timer;
     private double TIMER_DERAY;
+    private boolean non_move_flag;
 
-    public Human(int x, int y, int width, int height, double max_vx, double max_vy, double default_ax,
-            double default_ay, StageObjectsList stage_obj_list) {
+    public Human(int x, int y, int width, int height, double init_vx, double init_vy, double max_vx, double max_vy, double default_ax, double default_ay, StageObjectsList stage_obj_list) {
         super(x, y, width, height, stage_obj_list);
-        this.speed = new Speed(default_ax, default_ay, max_vx, max_vy);
+        this.non_move_flag = true;
+        this.speed = new Speed(default_ax, default_ay, init_vx, init_vy, max_vx, max_vy);
         this.TIMER_DERAY = 0.03;
-        this.timer = new javax.swing.Timer((int) (TIMER_DERAY * 1000), this);
+        this.timer = new javax.swing.Timer((int)(TIMER_DERAY * 1000), this);
         this.timer.start();
     }
 
     // 時間更新関数ここから
     public void actionPerformed(ActionEvent e) {
+        if (this.non_move_flag) {
+            this.non_move();
+        }
         int new_x = (int) (x + speed.get_vx() * TIMER_DERAY + 0.5 * speed.get_ax() * TIMER_DERAY * TIMER_DERAY);
         int new_y = (int) (y + speed.get_vy() * TIMER_DERAY + 0.5 * speed.get_ay() * TIMER_DERAY * TIMER_DERAY);
         double new_v_x = speed.get_vx() + speed.get_ax() * TIMER_DERAY;
@@ -27,6 +31,8 @@ public class Human extends StageObject implements ActionListener {
         this.set_position(new_x, new_y);
     }
     // 時間更新関数ここまで
+
+
 
     // セット関数ここから
     public void set_position(int x, int y) {
@@ -38,64 +44,73 @@ public class Human extends StageObject implements ActionListener {
             this.x = prev_x;
             this.y = prev_y;
         }
-        System.out.println(String.format("(x, y) = (%d, %d), v = (%.3f, %.3f), a = (%.3f, %.3f)", this.x, this.y,
-                this.speed.get_vx(), this.speed.get_vy(), this.speed.get_ax(), this.speed.get_ay()));
+        System.out.println(String.format("(x, y) = (%d, %d), v = (%.3f, %.3f), a = (%.3f, %.3f)", this.x, this.y, this.speed.get_vx(), this.speed.get_vy(), this.speed.get_ax(), this.speed.get_ay()));
         setChanged();
         notifyObservers();
     }
+    public void set_non_move_flag(boolean flag) {
+        this.non_move_flag = flag;
+    }
     // セット関数ここまで
+
+
 
     // 移動関数群ここから(non_moveはキーが押されていないときに徐々に速度が0に近づくように実行)
     // ※ジャンプと下移動は実装途中
     public void move_right() {
+        this.set_non_move_flag(false);
         this.speed.accelerate_x();
+        double vx0 = 0;
+        if(this.speed.get_vx()<10 && this.speed.get_vx()>-10) {
+            vx0 = this.speed.get_init_vx();
+            this.speed.set_v(vx0+this.speed.get_vx(), this.speed.get_vy());
+        }
     }
 
     public void move_left() {
+        this.set_non_move_flag(false);
         this.speed.decelerate_x();
+        double vx0 = 0;
+        if(this.speed.get_vx()<10 && this.speed.get_vx()>-10) {
+            vx0 = -this.speed.get_init_vx();
+        }
+        this.speed.set_v(vx0+this.speed.get_vx(), this.speed.get_vy());
     }
 
     public void jump() {
+        this.set_non_move_flag(false);
         this.speed.accelerate_y();
-        this.speed.set_v(this.speed.get_vx(), -10);
+        this.speed.set_v(this.speed.get_vx(), -this.speed.get_init_vy());
     }
 
     public void move_bottom() {
+        this.set_non_move_flag(false);
     }
 
     public void non_move() {
         double current_vx = this.speed.get_vx(), current_vy = this.speed.get_vy();
         // x方向の処理(0に収束するように加速度を調整)
         if (current_vx > 0) {
-            this.speed.decelerate_x();
-            if (current_vx + this.speed.get_ax() <= 0) {
+            this.speed.set_a(-this.speed.get_default_ax()/1.1, this.speed.get_ay());
+            if (current_vx + this.speed.get_ax()*TIMER_DERAY <= 0) {
                 this.speed.set_v(0, current_vy);
                 this.speed.set_a(0, this.speed.get_ay());
             }
         } else if (current_vx < 0) {
-            this.speed.accelerate_x();
-            if (current_vx + this.speed.get_ax() >= 0) {
+            this.speed.set_a(this.speed.get_default_ax()/1.1, this.speed.get_ay());
+            if (current_vx + this.speed.get_ax()*TIMER_DERAY >= 0) {
                 this.speed.set_v(0, current_vy);
                 this.speed.set_a(0, this.speed.get_ay());
-            }
-        }
-        // y方向の処理(0に収束するように加速度を調整)
-        if (current_vy > 0) {
-            this.speed.decelerate_x();
-            if (current_vy + this.speed.get_ay() <= 0) {
-                this.speed.set_v(current_vx, 0);
-                this.speed.set_a(this.speed.get_ax(), 0);
-            }
-        } else if (current_vy < 0) {
-            this.speed.accelerate_y();
-            if (current_vy + this.speed.get_ay() >= 0) {
-                this.speed.set_v(current_vx, 0);
-                this.speed.set_a(this.speed.get_ax(), 0);
             }
         }
     }
     // 移動関数群ここまで
 }
+
+
+
+
+
 
 class Player extends Human {
 
@@ -106,7 +121,7 @@ class Player extends Human {
     static Player player = new Player(50, 300, 50, 100, null);
 
     public Player(int x, int y, int width, int height, StageObjectsList stage_obj_list) {
-        super(x, y, width, height, 100, 100, 10, 10, stage_obj_list);
+        super(x, y, width, height, 100, 200, 200, 500, 300, 500, stage_obj_list);
         player_lbl.setBounds(x, y, width, height);
     }
 
@@ -152,8 +167,13 @@ class Player extends Human {
     }
 }
 
+
+
+
+
+
 class Enemy extends Human {
     public Enemy(int x, int y, int width, int height, StageObjectsList stage_obj_list) {
-        super(x, y, width, height, 100, 100, 10, 10, stage_obj_list);
+        super(x, y, width, height, 100, 100, 200, 200, 200, 200, stage_obj_list);
     }
 }
