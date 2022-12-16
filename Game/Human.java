@@ -56,8 +56,8 @@ public class Human extends StageObject implements ActionListener {
     }
 
     public void jump() {
-        this.speed.decelerate_y();
-        this.speed.set_v(this.speed.get_vx(), 10);
+        this.speed.accelerate_y();
+        this.speed.set_v(this.speed.get_vx(), -10);
     }
 
     public void move_bottom() {
