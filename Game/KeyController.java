@@ -10,8 +10,7 @@ public class KeyController implements KeyListener {
      * @see java.awt.event.KeyListener#keyPressed(java.awt.event.KeyEvent)
      */
 
-    Player player = new Player(50, 300, 50, 100, null);
-    PlayerVisible pl = PlayerVisible.get_instance();
+    Player pl = Player.get_instance();
 
 
     // esc,上下左右,vキー(書き換えメニュー)の入力受付
@@ -20,24 +19,24 @@ public class KeyController implements KeyListener {
         // 関数名は適当
         switch (e.getKeyCode()) {
             case KeyEvent.VK_UP:
-                player.jump();
-                // pl.set(pl.get_x(),pl.get_y()-5);
+                pl.jump();
+                pl.set(pl.get_x(),pl.get_y());
                 //System.out.println(y);
                 System.out.println("jump");
                 break;
             case KeyEvent.VK_DOWN:
-                player.move_bottom();
-                // pl.set(pl.get_x(),pl.get_y()+5);
+                pl.move_bottom();
+                pl.set(pl.get_x(),pl.get_y());
                 System.out.println("down");
                 break;
             case KeyEvent.VK_LEFT:
-                player.move_left();
-                // pl.set(pl.get_x()-5,pl.get_y());
+                pl.move_left();
+                pl.set(pl.get_x(),pl.get_y());
                 System.out.println("left");
                 break;
             case KeyEvent.VK_RIGHT:
-                player.move_right();
-                // pl.set(pl.get_x()+5,pl.get_y());
+                pl.move_right();
+                pl.set(pl.get_x(),pl.get_y());
                 System.out.println("right");
                 break;
             case KeyEvent.VK_V:

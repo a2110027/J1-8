@@ -12,7 +12,7 @@ import java.util.TimerTask;
 public class GameScene extends JFrame {
 
   // インスタンス生成
-  PlayerVisible pl = PlayerVisible.get_instance();
+  Player pl = Player.get_instance();
   Stage st = new Stage();
   BackGround bg = new BackGround();
   JLayeredPane p = new JLayeredPane();
@@ -30,7 +30,6 @@ public class GameScene extends JFrame {
     setLocationRelativeTo(null);
     setResizable(false);
     p.setLayout(null);
-    pl.set(50,300);
 
     tm.scheduleAtFixedRate(new TimerTask() {
 			@Override
@@ -65,6 +64,7 @@ public class GameScene extends JFrame {
    * 
    */
   public void reload(){
+    pl.set(pl.get_x(),pl.get_y());
     p.add(pl.get());
     p.setLayer(pl.get(),3);
     contentPane.add(p);
