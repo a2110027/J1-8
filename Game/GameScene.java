@@ -18,6 +18,7 @@ public class GameScene extends JFrame {
   JLayeredPane p = new JLayeredPane();
   Timer tm = new Timer();
   Container contentPane = getContentPane();
+
   /**
    * コンストラクタ
    * 
@@ -26,7 +27,7 @@ public class GameScene extends JFrame {
   public GameScene() {
     super("ゲームウインドウ");
     setDefaultCloseOperation(EXIT_ON_CLOSE);
-    setSize(1000, 500);
+    setSize(1920, 1080);
     setLocationRelativeTo(null);
     setResizable(false);
     p.setLayout(null);
@@ -43,14 +44,17 @@ public class GameScene extends JFrame {
     p.setLayer(bg.get_background(), 1);
 
 
+
     // ステージ描画 Layerは2
     JLabel[][] ar = st.stage_object();
-    for (int i = 0; i < 10; i++) {
-      for (int j = 0; j < 20; j++) {
+    for (int i = 0; i < ar.length; i++) {
+      for (int j = 0; j <st.length(); j++) {
+
         p.add(ar[i][j]);
         p.setLayer(ar[i][j], 2);
       }
     }
+    System.out.println(ar.length);
 
     // Player描画 Layerは3
     p.add(pl.get());
