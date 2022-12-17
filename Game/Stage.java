@@ -1,6 +1,6 @@
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Arrays;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -16,10 +16,6 @@ public class Stage extends JPanel {
   // インスタンス生成
   ImageIcon block = new ImageIcon("./img/object/Block(仮).png");
   JLabel block_lbl = new JLabel(block);
-
-  // ファイル読み込み
-  BufferedReader br = null;
-  String object_file = "./Stage/Stage.csv";
 
   // ステージのサイズ。仮にウインドウのサイズ分にした。
   final int MAX_DATA_NUM_WIDTH = 20;
@@ -38,14 +34,9 @@ public class Stage extends JPanel {
    */
   public JLabel[][] stage_object() {
     try {
-      File stage = new File(object_file);
-      br = new BufferedReader(new FileReader(stage));
-      String line;
-      int index = 0;
-      while ((line = br.readLine()) != null) {
-        stage_data[index] = line.split(",");
-        index++;
-      }
+      stage_data = Files.readAllLines(Path.of("./stage/Stage.csv")).stream()
+      .map(line -> line.split(","))
+      .toArray(String[][]::new);
     } catch (Exception e) {
       System.out.println(e.getMessage());
     }

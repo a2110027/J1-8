@@ -13,6 +13,18 @@
 * VScodeでコーディング
 * コード管理はGithub
 * 文字コードは UTF-8
+* 実行はMacとLinuxの2人はGameディレクトリ内で
+
+    \$ jar cfe 実行.jar Main *.class *.class  
+    と打ってjarファイルを生成して、  
+    \$ java - jar 実行.jar  
+    もしくは    
+    \$ start 実行.jar  
+    と打つか、Linuxは  
+    \$ java -jar 実行.jar &
+    
+    という代替手段で実行できるか確認してみて。
+
 
 ***
 

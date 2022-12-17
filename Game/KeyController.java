@@ -20,23 +20,19 @@ public class KeyController implements KeyListener {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_UP:
                 pl.jump();
-                pl.set(pl.get_x(),pl.get_y());
                 //System.out.println(y);
                 System.out.println("jump");
                 break;
             case KeyEvent.VK_DOWN:
                 pl.move_bottom();
-                pl.set(pl.get_x(),pl.get_y());
                 System.out.println("down");
                 break;
             case KeyEvent.VK_LEFT:
                 pl.move_left();
-                pl.set(pl.get_x(),pl.get_y());
                 System.out.println("left");
                 break;
             case KeyEvent.VK_RIGHT:
                 pl.move_right();
-                pl.set(pl.get_x(),pl.get_y());
                 System.out.println("right");
                 break;
             case KeyEvent.VK_V:
