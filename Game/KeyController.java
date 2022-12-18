@@ -11,7 +11,7 @@ public class KeyController implements KeyListener {
      */
 
     Player pl = Player.get_instance();
-
+    GameScene gs = GameScene.get_instance();
 
     // esc,上下左右,vキー(書き換えメニュー)の入力受付
     @Override

@@ -1,23 +1,22 @@
 import javax.swing.*;
-import java.awt.*;
-import java.util.Timer;
-import java.util.TimerTask;
+
 /**
  * プレイヤー描画
  * ステージ描画
- * 背景描画
+ * 背景描画を行う
  * 
  * @author 綾部
  */
 public class GameScene extends JFrame {
 
   // インスタンス生成
+  static GameScene gs = new GameScene();
   Player pl = Player.get_instance();
   Stage st = new Stage();
   BackGround bg = new BackGround();
   JLayeredPane p = new JLayeredPane();
-  Timer tm = new Timer();
-  Container contentPane = getContentPane();
+  JLabel[][] ar = st.stage_object();
+
 
   /**
    * コンストラクタ
@@ -25,19 +24,7 @@ public class GameScene extends JFrame {
    * @author 綾部
    */
   public GameScene() {
-    super("ゲームウインドウ");
-    setDefaultCloseOperation(EXIT_ON_CLOSE);
-    setSize(1920, 1080);
-    setLocationRelativeTo(null);
-    setResizable(false);
-    p.setLayout(null);
 
-    tm.scheduleAtFixedRate(new TimerTask() {
-			@Override
-			public void run() {
-        reload();
-			}
-		},  0, 50);
 
     // 背景描画 layerは1
     p.add(bg.get_background());
@@ -46,32 +33,43 @@ public class GameScene extends JFrame {
 
 
     // ステージ描画 Layerは2
-    JLabel[][] ar = st.stage_object();
     for (int i = 0; i < ar.length; i++) {
       for (int j = 0; j <st.length(); j++) {
-
+        ar[i][j].setBounds(j*50, i*50-25, 50, 100);
         p.add(ar[i][j]);
         p.setLayer(ar[i][j], 2);
       }
     }
-    System.out.println(ar.length);
 
     // Player描画 Layerは3
     p.add(pl.get());
     p.setLayer(pl.get(),3);
 
-    // 描画
-    contentPane.add(p);
+
   }
   /**
    * プレイヤーのみ再描画
    * 
    */
   public void reload(){
+
+
     pl.set(pl.get_x(),pl.get_y());
     p.add(pl.get());
     p.setLayer(pl.get(),3);
-    contentPane.add(p);
-    contentPane.repaint();
   }
+
+  /**
+   * パネルを返す。
+   * @return 現在のJLayeredPane
+   */
+  public JLayeredPane get_pane(){
+    return p;
+  }  
+
+
+  static  GameScene get_instance(){
+    return gs;
+  }
+
 }

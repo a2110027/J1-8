@@ -37,8 +37,6 @@ public class Stage{
       stage_data = Files.readAllLines(Path.of("./stage/Stage.csv")).stream()
       .map(line -> line.split(","))
       .toArray(String[][]::new);
-      for (String[] line : stage_data)
-      System.out.println(Arrays.toString(line));
     } catch (Exception e) {
       System.out.println(e.getMessage());
     }
@@ -52,7 +50,6 @@ public class Stage{
         }
         if (stage_data[i][j].equals("1")) {
           stage_matrix[i][j] = new JLabel(block);
-          stage_matrix[i][j].setBounds(j * 50, i * 50, 50, 50);
         } else if (stage_data[i][j].equals("0")) {
           stage_matrix[i][j] = new JLabel();
         }
