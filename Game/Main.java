@@ -7,7 +7,7 @@ public class Main {
    */
 
   public static void main(String[] args) {
-    GameScene gw = new GameScene();
+    MasterScene gw = new MasterScene();
     gw.setVisible(true);
 
     KeyController kc = new KeyController();

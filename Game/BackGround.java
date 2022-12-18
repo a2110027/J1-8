@@ -19,7 +19,7 @@ public class BackGround {
    * @author 綾部
    */
   public JLabel get_background() {
-    sky_lbl.setBounds(0, 0, 1000, 500);
+    sky_lbl.setBounds(0, 0, 1920, 1080);
     return sky_lbl;
   }
 

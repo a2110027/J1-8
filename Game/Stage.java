@@ -1,10 +1,9 @@
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Arrays;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 /**
  * Stage描画用クラス
@@ -12,18 +11,15 @@ import javax.swing.JPanel;
  * 
  * @author 綾部
  */
-public class Stage extends JPanel {
+public class Stage{
   // インスタンス生成
   ImageIcon block = new ImageIcon("./img/object/Block(仮).png");
   JLabel block_lbl = new JLabel(block);
 
-  // ファイル読み込み
-  BufferedReader br = null;
-  String object_file = "./Stage/Stage.csv";
-
-  // ステージのサイズ。仮にウインドウのサイズ分にした。
-  final int MAX_DATA_NUM_WIDTH = 20;
-  final int MAX_DATA_NUM_HEIGHT = 10;
+  // ステージの 最大サイズ。
+  final int MAX_DATA_NUM_WIDTH = 50;
+  final int MAX_DATA_NUM_HEIGHT = 18;
+  public int lim = 0;
   String[][] stage_data = new String[MAX_DATA_NUM_HEIGHT][MAX_DATA_NUM_WIDTH];
   JLabel[][] stage_matrix = new JLabel[MAX_DATA_NUM_HEIGHT][MAX_DATA_NUM_WIDTH];
 
@@ -38,27 +34,22 @@ public class Stage extends JPanel {
    */
   public JLabel[][] stage_object() {
     try {
-      File stage = new File(object_file);
-      br = new BufferedReader(new FileReader(stage));
-      String line;
-      int index = 0;
-      while ((line = br.readLine()) != null) {
-        stage_data[index] = line.split(",");
-        index++;
-      }
+      stage_data = Files.readAllLines(Path.of("./stage/Stage.csv")).stream()
+      .map(line -> line.split(","))
+      .toArray(String[][]::new);
     } catch (Exception e) {
       System.out.println(e.getMessage());
     }
 
-    for (int i = 0; i < MAX_DATA_NUM_HEIGHT; i++) {
-      if (stage_data[i] == null)
-        break;
-      for (int j = 0; j < MAX_DATA_NUM_WIDTH; j++) {
 
+    for (int i = 0; i < MAX_DATA_NUM_HEIGHT; i++) {
+      for (int j = 0; j < MAX_DATA_NUM_WIDTH; j++) {
+        if (j == stage_data[i].length){
+          lim = j;
+          break;
+        }
         if (stage_data[i][j].equals("1")) {
           stage_matrix[i][j] = new JLabel(block);
-
-          stage_matrix[i][j].setBounds(j * 50, (i - 1) * 50, 50, 50);
         } else if (stage_data[i][j].equals("0")) {
           stage_matrix[i][j] = new JLabel();
         }
@@ -66,5 +57,9 @@ public class Stage extends JPanel {
     }
 
     return stage_matrix;
+  }
+
+  public int length(){
+    return lim;
   }
 }

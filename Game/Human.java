@@ -118,7 +118,7 @@ class Player extends Human {
     ImageIcon icon1 = new ImageIcon("./img/character/Player(仮).png");
     JLabel player_lbl = new JLabel(icon1);
 
-    static Player player = new Player(50, 300, 50, 100, null);
+    static Player player = new Player(50, 600, 50, 100, null);
 
     public Player(int x, int y, int width, int height, StageObjectsList stage_obj_list) {
         super(x, y, width, height, 100, 200, 200, 500, 300, 500, stage_obj_list);
