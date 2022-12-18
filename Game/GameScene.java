@@ -1,3 +1,6 @@
+import java.awt.Dimension;
+import java.awt.Point;
+
 import javax.swing.*;
 
 /**
@@ -16,6 +19,9 @@ public class GameScene extends JFrame {
   BackGround bg = new BackGround();
   JLayeredPane p = new JLayeredPane();
   JLabel[][] ar = st.stage_object();
+  JPanel panel = new JPanel();
+  JScrollPane scrollpane = new JScrollPane();
+  JViewport view = scrollpane.getViewport();
 
 
   /**
@@ -46,14 +52,20 @@ public class GameScene extends JFrame {
     p.setLayer(pl.get(),3);
 
 
+
+    scrollpane.setPreferredSize(new Dimension(1540, 860));
+
+
+    view.setView(p);
+    view.setViewPosition(new Point(0, 0));
+
+    panel.add(scrollpane);
   }
   /**
    * プレイヤーのみ再描画
    * 
    */
   public void reload(){
-
-
     pl.set(pl.get_x(),pl.get_y());
     p.add(pl.get());
     p.setLayer(pl.get(),3);
@@ -63,8 +75,8 @@ public class GameScene extends JFrame {
    * パネルを返す。
    * @return 現在のJLayeredPane
    */
-  public JLayeredPane get_pane(){
-    return p;
+  public JPanel get_pane(){
+    return panel;
   }  
 
 
