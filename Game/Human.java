@@ -9,8 +9,8 @@ public class Human extends StageObject implements ActionListener {
     private double TIMER_DERAY;
     private boolean non_move_flag;
 
-    public Human(int x, int y, int width, int height, double init_vx, double init_vy, double max_vx, double max_vy, double default_ax, double default_ay, StageObjectsList stage_obj_list) {
-        super(x, y, width, height, stage_obj_list);
+    public Human(int x, int y, int width, int height, double init_vx, double init_vy, double max_vx, double max_vy, double default_ax, double default_ay) {
+        super(x, y, width, height);
         this.non_move_flag = true;
         this.speed = new Speed(default_ax, default_ay, init_vx, init_vy, max_vx, max_vy);
         this.TIMER_DERAY = 0.03;
@@ -52,6 +52,32 @@ public class Human extends StageObject implements ActionListener {
         this.non_move_flag = flag;
     }
     // セット関数ここまで
+
+
+
+    // 取得関数群ここから
+    public int get_x() {
+        return this.x;
+    }
+    public int get_y() {
+        return this.y;
+    }
+    // 取得関数群ここまで
+
+
+
+    // 衝突判定ここから
+    public boolean is_collision() {
+        if (this.get_stage_object_list() == null) {
+            System.out.println("HumanClass.java; Human.is_collision: stage_object_listがnullです");
+            return false;
+        }
+        for (StageObject collision_obj : stage_obj_list.get_collision_list(this.range_x, this.range_y)) {
+            
+        }
+        return false;
+    }
+    // 衝突判定ここまで
 
 
 
@@ -117,11 +143,12 @@ class Player extends Human {
     // インスタンス生成
     ImageIcon icon1 = new ImageIcon("./img/character/Player(仮).png");
     JLabel player_lbl = new JLabel(icon1);
+    
 
-    static Player player = new Player(50, 600, 50, 100, null);
+    static Player player = new Player(50, 600, 50, 100);
 
-    public Player(int x, int y, int width, int height, StageObjectsList stage_obj_list) {
-        super(x, y, width, height, 100, 200, 200, 500, 300, 500, stage_obj_list);
+    public Player(int x, int y, int width, int height) {
+        super(x, y, width, height, 100, 200, 200, 500, 300, 500);
         player_lbl.setBounds(x, y, width, height);
     }
 
@@ -145,14 +172,6 @@ class Player extends Human {
         return player;
     }
 
-    public int get_x() {
-        return x;
-    }
-
-    public int get_y() {
-        return y;
-    }
-
     /**
      * プレイヤーラベルの座標を変更する
      * 
@@ -174,6 +193,6 @@ class Player extends Human {
 
 class Enemy extends Human {
     public Enemy(int x, int y, int width, int height, StageObjectsList stage_obj_list) {
-        super(x, y, width, height, 100, 100, 200, 200, 200, 200, stage_obj_list);
+        super(x, y, width, height, 100, 100, 200, 200, 200, 200);
     }
 }
