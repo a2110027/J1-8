@@ -19,11 +19,6 @@ public class GameScene {
   BackGround bg = new BackGround();
   JLayeredPane p = new JLayeredPane();
   JLabel[][] ar = st.stage_object();
-  JPanel panel = new JPanel();
-  JScrollPane scrollpane = new JScrollPane();
-  JViewport view = scrollpane.getViewport();
-  Point point = new Point(0,0);
-
 
   /**
    * コンストラクタ
@@ -56,13 +51,6 @@ public class GameScene {
     p.add(pl.get());
     p.setLayer(pl.get(),3);
 
-
-
-    scrollpane.setPreferredSize(new Dimension(720, 480));
-    point.setLocation(50,50);
-    view.setView(p);
-    view.setViewPosition(point);
-    panel.add(scrollpane);
   }
   /**
    * プレイヤーのみ再描画
@@ -78,8 +66,8 @@ public class GameScene {
    * パネルを返す。
    * @return 現在のJLayeredPane
    */
-  public JPanel get_pane(){
-    return panel;
+  public JLayeredPane get_pane(){
+    return p;
   }  
 
 /**

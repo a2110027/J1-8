@@ -28,9 +28,9 @@ public class MasterScene extends JFrame{
     setLocationRelativeTo(null);
     setResizable(false);
     contentPane.add(game.get_pane());
-    //setSize(1500,800);
+    setSize(720,480);
 		//JFrameをフルスクリーンに
-		gd.setFullScreenWindow(this);
+		//gd.setFullScreenWindow(this);
 
 
     // タイマー開始。再描画を行う。
