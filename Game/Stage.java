@@ -15,6 +15,7 @@ public class Stage{
   // インスタンス生成
   ImageIcon block = new ImageIcon("./img/object/Block(仮).png");
   JLabel block_lbl = new JLabel(block);
+  StageObjectsList stage_object_list = new StageObjectsList();
 
   // ステージの 最大サイズ。
   final int MAX_DATA_NUM_WIDTH = 50;
@@ -50,6 +51,7 @@ public class Stage{
         }
         if (stage_data[i][j].equals("1")) {
           stage_matrix[i][j] = new JLabel(block);
+          stage_object_list.add_stage_object(new StageObject(j*50, i*50-25, 50, 50));
         } else if (stage_data[i][j].equals("0")) {
           stage_matrix[i][j] = new JLabel();
         }
@@ -57,6 +59,10 @@ public class Stage{
     }
 
     return stage_matrix;
+  }
+
+  public StageObjectsList get_stage_object_list() {
+    return this.stage_object_list;
   }
 
   public int length(){

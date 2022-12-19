@@ -16,11 +16,15 @@
 import java.util.ArrayList;
 import java.util.Observable;
 
+import javax.swing.JLabel;
+
 
 
 // プレイヤーや敵または障害物ブロック含むすべてのオブジェクトの親クラス
 class StageObject extends Observable {
     // 初期設定ここから
+    // 描画用のJLabel
+    JLabel object_label;
     // 座標情報
     protected int x, y;
     // サイズに関する情報(このサイズの長方形が当たり判定になる)
@@ -32,12 +36,12 @@ class StageObject extends Observable {
     // 衝突判定の読み込みを必須にするかどうか(読み込み範囲外でも必ず読み込むかどうかのフラグ)
     boolean collision_load_required;
     // コンストラクタ
-    public StageObject(int x, int y, int width, int height, StageObjectsList stage_obj_list) {
+    public StageObject(int x, int y, int width, int height) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
-        this.stage_obj_list = stage_obj_list;
+        this.stage_obj_list = null;
         this.collision_load_required = false;
         // 衝突判定の読み込み限界は当たり判定の4倍程
         this.range_x = new int[]{this.x-(width*4), this.x+(width*4)};
@@ -60,14 +64,14 @@ class StageObject extends Observable {
 
 
 
-    // 衝突判定ここから
-    public boolean is_collision() {
-        // for (StageObject collision_obj : stage_obj_list.get_collision_list(this.range_x, this.range_y)) {
-            
-        // }
-        return false;
+    // 障害物リスト関係の処理ここから
+    public void set_stage_object_list(StageObjectsList stage_object_list_instance) {
+        this.stage_obj_list = stage_object_list_instance;
     }
-    // 衝突判定ここまで
+    public StageObjectsList get_stage_object_list() {
+        return this.stage_obj_list;
+    }
+    // 障害物リスト関係の処理ここまで
 }
 
 
@@ -91,6 +95,11 @@ class StageObjectsList {
         // 衝突判定の読み込みが必須なら先頭に追加
         if (!new_obj.is_collision_load_required()) {
             for (StageObject obj : this.stage_obj_list) {
+                // 読み込み必須要素は無視する
+                if (obj.is_collision_load_required()) {
+                    targetIndex++;
+                    continue;
+                }
                 if (new_obj.y < obj.y) {
                     break;
                 } else if (new_obj.y == obj.y && new_obj.x < obj.x) {
@@ -107,28 +116,32 @@ class StageObjectsList {
 
 
     // 衝突オブジェクトの読み込み関数ここから
+    // 範囲に収まる衝突オブジェクトの出力
+    public void print_stage_object_list(int range_x[], int range_y[]) {
+        int i = 0;
+        for (StageObject stage_obj : this.stage_obj_list) {
+            if (range_y[0] <= stage_obj.y && stage_obj.y <= range_y[1]) {
+                if (range_x[0] <= stage_obj.x && stage_obj.x <= range_x[1]) {
+                    System.out.println(i+":(x, y) = ("+stage_obj.x+", "+stage_obj.y+")");
+                }
+            }
+            i++;
+        }
+    }
     // 範囲に収まる衝突オブジェクトのうち始めのインデックスを返す
     public int search_range_first_index(int y) {
         int start = 0;
         for (StageObject stage_obj : this.stage_obj_list) {
             if (stage_obj.is_collision_load_required()) {
                 start++;
-            } else {
+            } else if (stage_obj.y >= y) {
                 break;
+            } else {
+                start++;
+                continue;
             }
         }
-        int h = (this.stage_obj_list.size()-start-1)/2 + start;
-        while (this.stage_obj_list.get(h).y > y || h >= start) {
-            h = h/2;
-        }
-        if (h < start) {
-            h = start;
-        } else {
-            while (this.stage_obj_list.get(h).y < y || h <= this.stage_obj_list.size()-1) {
-                h++;
-            }
-        }
-        return h;
+        return start;
     }
     public ArrayList<StageObject> get_collision_list(int range_x[], int range_y[]) {
         ArrayList<StageObject> result = new ArrayList<StageObject>();
@@ -139,12 +152,14 @@ class StageObjectsList {
                 break;
             }
         }
-        int i = search_range_first_index(range_y[0]);
-        while (range_y[0] <= this.stage_obj_list.get(i).y && this.stage_obj_list.get(i).y <= range_y[1]) {
-            if (range_x[0] <= this.stage_obj_list.get(i).y && this.stage_obj_list.get(i).y <= range_x[1]) {
-                result.add(this.stage_obj_list.get(i));
+        int start_index = search_range_first_index(range_y[0]);
+        for (int i=start_index; i<this.stage_obj_list.size(); i++) {
+            StageObject obj = this.stage_obj_list.get(i);
+            if (range_y[0] <= obj.y && obj.y <= range_y[1]) {
+                if (range_x[0] <= obj.y && obj.y <= range_x[1]) {
+                    result.add(obj);
+                }
             }
-            i += 1;
         }
         return result;
     }

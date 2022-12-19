@@ -26,6 +26,10 @@ public class GameScene extends JFrame {
   public GameScene() {
 
 
+    // 各stageObjectクラスにstageObjectListを付与
+    pl.set_stage_object_list(st.get_stage_object_list());
+
+
     // 背景描画 layerは1
     p.add(bg.get_background());
     p.setLayer(bg.get_background(), 1);
