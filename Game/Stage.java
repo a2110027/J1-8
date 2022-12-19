@@ -19,7 +19,7 @@ public class Stage{
 
   // ステージの 最大サイズ。
   final int MAX_DATA_NUM_WIDTH = 50;
-  final int MAX_DATA_NUM_HEIGHT = 18;
+  final int MAX_DATA_NUM_HEIGHT = 10;
   public int lim = 0;
   String[][] stage_data = new String[MAX_DATA_NUM_HEIGHT][MAX_DATA_NUM_WIDTH];
   JLabel[][] stage_matrix = new JLabel[MAX_DATA_NUM_HEIGHT][MAX_DATA_NUM_WIDTH];

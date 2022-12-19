@@ -10,7 +10,7 @@ import javax.swing.*;
  * 
  * @author 綾部
  */
-public class GameScene extends JFrame {
+public class GameScene {
 
   // インスタンス生成
   static GameScene gs = new GameScene();
@@ -22,6 +22,7 @@ public class GameScene extends JFrame {
   JPanel panel = new JPanel();
   JScrollPane scrollpane = new JScrollPane();
   JViewport view = scrollpane.getViewport();
+  Point point = new Point(0,0);
 
 
   /**
@@ -45,7 +46,7 @@ public class GameScene extends JFrame {
     // ステージ描画 Layerは2
     for (int i = 0; i < ar.length; i++) {
       for (int j = 0; j <st.length(); j++) {
-        ar[i][j].setBounds(j*50, i*50-25, 50, 100);
+        ar[i][j].setBounds(j*50, i*50, 50, 50);
         p.add(ar[i][j]);
         p.setLayer(ar[i][j], 2);
       }
@@ -57,12 +58,17 @@ public class GameScene extends JFrame {
 
 
 
-    scrollpane.setPreferredSize(new Dimension(1540, 860));
+    scrollpane.setPreferredSize(new Dimension(720, 480));
 
-
+    int x = point.x;
+    int y = point.y;
+    System.out.println(x+","+y);
+    point.setLocation(50,50);
     view.setView(p);
-    view.setViewPosition(new Point(0, 0));
-
+    view.setViewPosition(point);
+    x = point.x;
+    y = point.y;
+    System.out.println(x+","+y);
     panel.add(scrollpane);
   }
   /**
@@ -83,7 +89,10 @@ public class GameScene extends JFrame {
     return panel;
   }  
 
-
+/**
+ * インスタンスを返す
+ * @return インスタンス
+ */
   static  GameScene get_instance(){
     return gs;
   }

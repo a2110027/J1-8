@@ -28,8 +28,7 @@ public class MasterScene extends JFrame{
     setLocationRelativeTo(null);
     setResizable(false);
     contentPane.add(game.get_pane());
-
-
+    //setSize(1500,800);
 		//JFrameをフルスクリーンに
 		gd.setFullScreenWindow(this);
 
