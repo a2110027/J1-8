@@ -59,16 +59,9 @@ public class GameScene {
 
 
     scrollpane.setPreferredSize(new Dimension(720, 480));
-
-    int x = point.x;
-    int y = point.y;
-    System.out.println(x+","+y);
     point.setLocation(50,50);
     view.setView(p);
     view.setViewPosition(point);
-    x = point.x;
-    y = point.y;
-    System.out.println(x+","+y);
     panel.add(scrollpane);
   }
   /**
