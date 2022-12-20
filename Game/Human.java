@@ -3,6 +3,10 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Toolkit;
+
 public class Human extends StageObject implements ActionListener {
     protected Speed speed;
     private javax.swing.Timer timer;
@@ -141,6 +145,7 @@ public class Human extends StageObject implements ActionListener {
 class Player extends Human {
 
     // インスタンス生成
+    Image img = Toolkit.getDefaultToolkit().getImage("./img/character/Player(仮).png");
     ImageIcon icon1 = new ImageIcon("./img/character/Player(仮).png");
     JLabel player_lbl = new JLabel(icon1);
     
@@ -183,6 +188,11 @@ class Player extends Human {
         x = x_;
         y = y_;
         player_lbl.setBounds(x, y, 50, 100);
+    }
+
+
+    public void draw(Graphics g, int x, int y){
+
     }
 }
 

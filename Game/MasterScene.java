@@ -14,9 +14,9 @@ public class MasterScene extends JFrame{
   static MasterScene master = new MasterScene();
   Container contentPane = getContentPane();
   GameScene game = new GameScene();
-  Timer tm = new Timer();
-  GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-  GraphicsDevice gd = ge.getDefaultScreenDevice();
+  //Timer tm = new Timer();
+  //GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+  //GraphicsDevice gd = ge.getDefaultScreenDevice();
   /**
    * コンストラクタ
    * 
@@ -27,26 +27,29 @@ public class MasterScene extends JFrame{
     setDefaultCloseOperation(EXIT_ON_CLOSE);
     setLocationRelativeTo(null);
     setResizable(false);
-    contentPane.add(game.get_pane());
-    setSize(720,480);
+    contentPane.add(game);
+    setSize(1014,537);
+
+
 		//JFrameをフルスクリーンに
 		//gd.setFullScreenWindow(this);
+  
+    // ↓戻す
+    addKeyListener(game);
 
-
+    // ↓戻す
     // タイマー開始。再描画を行う。
-    tm.scheduleAtFixedRate(new TimerTask() {
-			@Override
-			public void run() {
-        game.reload();
-        contentPane.add(game.get_pane());
-        contentPane.repaint();
-			}
-		},  0, 100);
+    // tm.scheduleAtFixedRate(new TimerTask() {
+		// 	@Override
+		// 	public void run() {
+    //     game.reload();
+    //     contentPane.add(game.get_pane());
+    //     contentPane.repaint();
+		// 	}
+		// },  0, 100);
 
   }
   public void end(){
-    setVisible(false); 
-    dispose(); 
     System.exit(0); 
   }
   static MasterScene get_instance(){
