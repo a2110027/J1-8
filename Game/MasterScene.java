@@ -1,7 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
-import java.util.Timer;
-import java.util.TimerTask;
+
 
 /** 
  * 全ての画面を司る。画面遷移にも関係している。
@@ -14,7 +13,9 @@ public class MasterScene extends JFrame{
   static MasterScene master = new MasterScene();
   Container contentPane = getContentPane();
   GameScene game = new GameScene();
-  Timer tm = new Timer();
+  JPanel cardpanel;
+  CardLayout layout;
+
   GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
   GraphicsDevice gd = ge.getDefaultScreenDevice();
   /**
@@ -27,23 +28,35 @@ public class MasterScene extends JFrame{
     setDefaultCloseOperation(EXIT_ON_CLOSE);
     setLocationRelativeTo(null);
     setResizable(false);
-    contentPane.add(game.get_pane());
     setSize(720,480);
 		//JFrameをフルスクリーンに
 		//gd.setFullScreenWindow(this);
 
 
-    // タイマー開始。再描画を行う。
-    tm.scheduleAtFixedRate(new TimerTask() {
-			@Override
-			public void run() {
-        game.reload();
-        contentPane.add(game.get_pane());
-        contentPane.repaint();
-			}
-		},  0, 100);
+    // CardLayout用パネル
+    cardpanel = new JPanel();
+    layout = new CardLayout();
+    cardpanel.setLayout(layout);
+
+    StartScene start = new StartScene();
+    GameScene game = new GameScene();
+
+    cardpanel.add(start, "StartScene");
+    cardpanel.add(game.get_pane(), "GameScene");
+    
+    contentPane.add(cardpanel);
 
   }
+
+  public void ChangePanel(String s){
+    layout.show(cardpanel, s);
+    System.out.println(s + "Yes!");
+  }
+
+  public Container get_contentpane(){
+    return contentPane;
+  }
+
   public void end(){
     setVisible(false); 
     dispose(); 

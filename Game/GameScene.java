@@ -2,6 +2,8 @@ import java.awt.Dimension;
 import java.awt.Point;
 
 import javax.swing.*;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * プレイヤー描画
@@ -16,9 +18,12 @@ public class GameScene {
   static GameScene gs = new GameScene();
   Player pl = Player.get_instance();
   Stage st = new Stage();
+  Timer tm = new Timer();
   BackGround bg = new BackGround();
   JLayeredPane p = new JLayeredPane();
   JLabel[][] ar = st.stage_object();
+  MasterScene ms = MasterScene.get_instance();
+  //MasterScene ms;
 
   /**
    * コンストラクタ
@@ -51,7 +56,22 @@ public class GameScene {
     p.add(pl.get());
     p.setLayer(pl.get(),3);
 
+    // タイマー開始。再描画を行う。
+    tm.scheduleAtFixedRate(new TimerTask() {
+			@Override
+			public void run() {
+        reload();
+        //ms = MasterScene.get_instance();
+        //ms.contentPane.add(get_pane());
+        //ms.contentPane.repaint();
+
+        ms.get_contentpane().add(get_pane());
+        ms.get_contentpane().repaint();
+			}
+		},  0, 100);
   }
+
+  
   /**
    * プレイヤーのみ再描画
    * 
