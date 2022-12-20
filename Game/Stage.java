@@ -41,15 +41,14 @@ public class Stage extends  JPanel{
 
 
   /**
+   * コンストラクタ
    * csvファイルを読み込み、配列化する。
    * 配列の中身が"1"のときにブロックを描画するようにした。
    * 配列の中身が"0"のときは何もないとして、描画しないことにする。
    * 
-   * @return stage_matrix csvファイルを読み込んで出来たステージラベルの配列
    * @author 綾部
    */
-  public JLabel[][] stage_object() {
-
+  public Stage(){
     // ここから
     try {
       stage_data = Files.readAllLines(Path.of("./stage/Stage.csv")).stream()
@@ -76,24 +75,9 @@ public class Stage extends  JPanel{
     //   {"1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1"},
     // };
     // ここまで
-
-    // for (int i = 0; i < COL; i++) {
-    //   for (int j = 0; j < ROW; j++) {
-    //     if (j == stage_data[i].length){
-    //       lim = j;
-    //       break;
-    //     }
-    //     if (stage_data[i][j].equals("1")) {
-    //       stage_matrix[i][j] = new JLabel(block);
-    //       stage_object_list.add_stage_object(new StageObject(j*50, i*50-25, 50, 50));
-    //     } else if (stage_data[i][j].equals("0")) {
-    //       stage_matrix[i][j] = new JLabel();
-    //     }
-    //   }
-    // }
-
-    return stage_matrix;
   }
+
+
 
   public StageObjectsList get_stage_object_list() {
     return this.stage_object_list;
@@ -102,7 +86,6 @@ public class Stage extends  JPanel{
   public int length(){
     return lim;
   }
-
 
   public void draw(Graphics g, int offsetX) {
     int firstTileX = (int)Math.floor(offsetX / 50);
@@ -117,8 +100,5 @@ public class Stage extends  JPanel{
         } 
       } 
     } 
-
-    System.out.println(firstTileX + ", "+ lastTileX);
-    System.out.println(firstTileY + ", "+ lastTileY);
   }
 }

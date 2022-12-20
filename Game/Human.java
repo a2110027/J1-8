@@ -154,16 +154,6 @@ class Player extends Human {
 
     public Player(int x, int y, int width, int height) {
         super(x, y, width, height, 100, 200, 200, 500, 300, 500);
-        player_lbl.setBounds(x, y, width, height);
-    }
-
-    /**
-     * プレイヤーラベルを返す
-     * 
-     * @author 綾部
-     */
-    public JLabel get() {
-        return player_lbl;
     }
 
     /**
@@ -178,7 +168,7 @@ class Player extends Human {
     }
 
     /**
-     * プレイヤーラベルの座標を変更する
+     * プレイヤーの座標を変更する
      * 
      * @param x プレイヤーのx座標
      * @param y プレイヤーのy座標
@@ -187,10 +177,13 @@ class Player extends Human {
     public void set(int x_, int y_) {
         x = x_;
         y = y_;
-        player_lbl.setBounds(x, y, 50, 100);
     }
 
 
+    /**
+     * プレイヤー描画
+     * @param g
+     */
     public void draw(Graphics g){
         g.drawImage(img, x, y, player_lbl);
     }

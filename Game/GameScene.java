@@ -1,7 +1,4 @@
 import javax.swing.*;
-
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 
 import java.awt.event.KeyListener;
@@ -21,9 +18,7 @@ public class GameScene extends JPanel implements KeyListener {
   Player player = Player.get_instance();
   Stage st = new Stage();
   BackGround bg = new BackGround();
-  JLayeredPane p = new JLayeredPane();
-  JLabel[][] ar = st.stage_object();
-
+  
   MasterScene ms = MasterScene.get_instance();
 
   /**
@@ -36,29 +31,13 @@ public class GameScene extends JPanel implements KeyListener {
     // 各stageObjectクラスにstageObjectListを付与
     player.set_stage_object_list(st.get_stage_object_list());
 
-    // // 背景描画 layerは1
-    // p.add(bg.get_background());
-    // p.setLayer(bg.get_background(), 1);
-
-    // // // ステージ描画 Layerは2
-    // p.add(this);
-    // p.setLayer(this,2);
-
-    // // Player描画 Layerは3
-    // p.add(player.get());
-    // p.setLayer(player.get(),3);
-
   }
 
   /**
    * プレイヤーのみ再描画
    * 
    */
-  public void reload() {
-    player.set(player.get_x(), player.get_y());
-    p.add(player.get());
-    p.setLayer(player.get(), 3);
-  }
+
 
   /**
    * インスタンスを返す
@@ -69,12 +48,12 @@ public class GameScene extends JPanel implements KeyListener {
     return gs;
   }
 
-  public JLayeredPane get() {
-    return p;
-  }
 
   /* ***************************************** */
-
+  /**
+   * 描画部分
+   * @param offset ステージや背景(未実装)のスクロールをするための値
+   */
   public void paintComponent(Graphics g) {
     super.paintComponent(g);
     // int offset = 0;
@@ -84,11 +63,14 @@ public class GameScene extends JPanel implements KeyListener {
     bg.draw(g, 0);
     st.draw(g, offset);
     player.draw(g);
-    System.out.println(offset);
   }
 
   /* ***************************************: */
 
+  /**
+   * 組み込んでしまったけれど、もしかしたら前のKeyControllerとして使うかもしれないのでファイルは残しておく。
+   * エリオが作ったところとして記録しておく。
+   */
   // esc,上下左右,vキー(書き換えメニュー)の入力受付
   @Override
   public void keyPressed(KeyEvent e) {

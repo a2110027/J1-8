@@ -13,22 +13,24 @@ public class BackGround extends JPanel{
   // インスタンス生成
   
   Image sky = Toolkit.getDefaultToolkit().getImage("./img/background/sky.png");
-  //ImageIcon sky = new ImageIcon("./img/background/sky.png");
-  //JLabel sky_lbl = new JLabel(sky);
+
 
   /**
-   * 背景画像を出力
+   * コンストラクタ
    * 
-   * @return sky_lbl 水色の画像
    * @author 綾部
    */
   public void get_background() {
     return ;
   }
 
+  
+  /**
+   * 背景描写
+   * @param g
+   * @param offset 横スクロールする際に、背景もスクロールできるようにする為の値
+   */
   public void draw(Graphics g, int offset){
-    g.drawImage(sky, 0 - offset, 0, this);
-    //g.setColor(Color.BLUE);
-    //g.fillRect(0 - offset, 0, 1014,537);
+    g.drawImage(sky,  - offset, 0, this);
   }
 }
