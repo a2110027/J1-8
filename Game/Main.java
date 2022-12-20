@@ -9,9 +9,5 @@ public class Main {
   public static void main(String[] args) {
     MasterScene gw = MasterScene.get_instance();
     gw.setVisible(true);
-
-    KeyController kc = new KeyController();
-    gw.addKeyListener(kc);
-
   }
 }
