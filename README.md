@@ -80,13 +80,15 @@ Start画面 → プレイ画面 → GameOver or GameClear
 * Enemy
 * Object
 
-### V 綾部
+### V 綾部 藤
 
-* Start
-* PlayScene
+* MasterScene
+* StartScene
+* GameScene
 * ValueSetting(式変更画面)
 * PauseScene
-* GameFinish(clearとGameOverは文字列のみ違う)
+* EndScene(clearとGameOverは文字列のみ違う)
+
 
 ### C 山下
 
