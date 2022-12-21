@@ -79,9 +79,9 @@ public class Stage extends  JPanel{
     return lim;
   }
 
-  public void draw(Graphics g, int offsetX) {
-    int firstTileX = (int)Math.floor(offsetX / 50);
-    int lastTileX = firstTileX + (int)Math.floor(1000 / 50);
+  public void draw(Graphics g, int offset) {
+    int firstTileX = (int)Math.floor(offset / 50);
+    int lastTileX = firstTileX + (int)Math.floor(1000 / 50)+1;
     lastTileX = Math.min(lastTileX, 50);
     int firstTileY = 0;
     int lastTileY =  10;
@@ -89,9 +89,9 @@ public class Stage extends  JPanel{
       for (int j = firstTileX; j < lastTileX; j++) {
         // この下のstage_data[i][j]をstage_data_[i][j]に変えると、csvファイルを読まなくなる。
         if (stage_data[i][j].equals("1")) {
-            g.drawImage(img, j*50 - offsetX, i*50, this);
+            g.drawImage(img, j*50 - offset, i*50, this);
         } 
       } 
-    } 
+    }
   }
 }

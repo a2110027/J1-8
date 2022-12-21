@@ -34,12 +34,6 @@ public class GameScene extends JPanel implements KeyListener {
   }
 
   /**
-   * プレイヤーのみ再描画
-   * 
-   */
-
-
-  /**
    * インスタンスを返す
    * 
    * @return インスタンス
@@ -56,10 +50,9 @@ public class GameScene extends JPanel implements KeyListener {
    */
   public void paintComponent(Graphics g) {
     super.paintComponent(g);
-    // int offset = 0;
-    int offset = (int) this.player.get_x() - 50;
-    offset = Math.min(offset, 500);
-    offset = Math.max(offset, 0);
+    int offset = this.player.get_x();
+    offset = Math.min(offset, 1550);
+    offset = Math.max(offset-400, 0);
     bg.draw(g, 0);
     st.draw(g, offset);
     player.draw(g);
