@@ -32,6 +32,9 @@ public class MasterScene extends JFrame{
 		//JFrameをフルスクリーンに
 		//gd.setFullScreenWindow(this);
 
+    addKeyListener(new KeyController());
+    setFocusable(true);
+
 
     // CardLayout用パネル
     cardpanel = new JPanel();
