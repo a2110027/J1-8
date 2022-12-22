@@ -44,7 +44,7 @@ public class MasterScene extends JFrame{
     
 
     cardpanel.add(start, "StartScene");
-    cardpanel.add(game.get_pane(), "GameScene");
+    cardpanel.add(game, "GameScene");
     
     contentPane.add(cardpanel);
 
@@ -54,7 +54,10 @@ public class MasterScene extends JFrame{
     layout.show(cardpanel, s);
     System.out.println(s + "Yes!");
 
-    
+    if(s == "GameScene"){
+      game.setFocusable(true);
+      game.gamestart();
+    }
   }
 
 

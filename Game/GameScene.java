@@ -40,8 +40,8 @@ public class GameScene extends JPanel implements KeyListener {
     tm.scheduleAtFixedRate(new TimerTask() {
 			@Override
 			public void run() {
-        contentPane.add(game);
-        contentPane.repaint();
+        //contentPane.add(game);
+        //contentPane.repaint();
 			}
 		},  0, 100);
   }
