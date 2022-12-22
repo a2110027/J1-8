@@ -43,11 +43,28 @@ class StageObject extends Observable {
         this.height = height;
         this.stage_obj_list = null;
         this.collision_load_required = false;
-        // 衝突判定の読み込み限界は当たり判定の4倍程
-        this.range_x = new int[]{this.x-(width*4), this.x+(width*4)};
-        this.range_y = new int[]{this.y-(height*4), this.y+(height*4)};
+        // 衝突判定の読み込み限界は当たり判定の2倍程
+        this.range_x = new int[]{this.x-width, this.x+width*2};
+        this.range_y = new int[]{this.y-height, this.y+height*2};
     }
     // 初期設定ここまで
+
+
+
+    // 各辺の始点と終点を取得する関数ここから
+    public int[][] get_top_line() {
+        return new int[][]{{x, y}, {x+width, y}};
+    }
+    public int[][] get_right_line() {
+        return new int[][]{{x+width, y}, {x+width, y+height}};
+    }
+    public int[][] get_bottom_line() {
+        return new int[][]{{x, y+height}, {x+width, y+height}};
+    }
+    public int[][] get_left_line() {
+        return new int[][]{{x, y}, {x, y+height}};
+    }
+    // 各辺の始点と終点を取得する関数ここまで
 
 
 
@@ -144,6 +161,7 @@ class StageObjectsList {
         return start;
     }
     public ArrayList<StageObject> get_collision_list(int range_x[], int range_y[]) {
+        // System.out.println(String.format("x: %d~%d, y: %d~%d", range_x[0], range_x[1], range_y[0], range_y[1]));
         ArrayList<StageObject> result = new ArrayList<StageObject>();
         for (StageObject stage_obj : this.stage_obj_list) {
             if (stage_obj.is_collision_load_required()) {
@@ -153,10 +171,11 @@ class StageObjectsList {
             }
         }
         int start_index = search_range_first_index(range_y[0]);
+        // print_stage_object_list(range_x, range_y);
         for (int i=start_index; i<this.stage_obj_list.size(); i++) {
             StageObject obj = this.stage_obj_list.get(i);
             if (range_y[0] <= obj.y && obj.y <= range_y[1]) {
-                if (range_x[0] <= obj.y && obj.y <= range_x[1]) {
+                if (range_x[0] <= obj.x && obj.x <= range_x[1]) {
                     result.add(obj);
                 }
             }

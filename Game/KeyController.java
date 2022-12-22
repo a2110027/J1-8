@@ -21,19 +21,19 @@ public class KeyController implements KeyListener {
             case KeyEvent.VK_UP:
                 pl.jump();
                 //System.out.println(y);
-                System.out.println("jump");
+                // System.out.println("jump");
                 break;
             case KeyEvent.VK_DOWN:
                 pl.move_bottom();
-                System.out.println("down");
+                // System.out.println("down");
                 break;
             case KeyEvent.VK_LEFT:
                 pl.move_left();
-                System.out.println("left");
+                // System.out.println("left");
                 break;
             case KeyEvent.VK_RIGHT:
                 pl.move_right();
-                System.out.println("right");
+                // System.out.println("right");
                 break;
             case KeyEvent.VK_V:
                 System.out.println("V");
