@@ -1,5 +1,7 @@
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
+import javax.swing.JPanel;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Toolkit;
 
 /**
  * BackGround描画用クラス
@@ -7,20 +9,28 @@ import javax.swing.JLabel;
  * 
  * @author 綾部
  */
-public class BackGround {
+public class BackGround extends JPanel{
   // インスタンス生成
-  ImageIcon sky = new ImageIcon("./img/background/sky.png");
-  JLabel sky_lbl = new JLabel(sky);
+  
+  Image sky = Toolkit.getDefaultToolkit().getImage("./img/background/sky.png");
+
 
   /**
-   * 背景画像を出力
+   * コンストラクタ
    * 
-   * @return sky_lbl 水色の画像
    * @author 綾部
    */
-  public JLabel get_background() {
-    sky_lbl.setBounds(0, 0, 1920, 1080);
-    return sky_lbl;
+  public void get_background() {
+    return ;
   }
 
+  
+  /**
+   * 背景描写
+   * @param g
+   * @param offset 横スクロールする際に、背景もスクロールできるようにする為の値
+   */
+  public void draw(Graphics g, int offset){
+    g.drawImage(sky,  - offset, 0, this);
+  }
 }
