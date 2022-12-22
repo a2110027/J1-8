@@ -11,9 +11,12 @@ import java.util.TimerTask;
 public class MasterScene extends JFrame{
   
   // インスタンス生成
+  static MasterScene master = new MasterScene();
   Container contentPane = getContentPane();
   GameScene game = new GameScene();
   Timer tm = new Timer();
+  //GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+  //GraphicsDevice gd = ge.getDefaultScreenDevice();
   /**
    * コンストラクタ
    * 
@@ -22,20 +25,32 @@ public class MasterScene extends JFrame{
   public MasterScene() {
     super("ゲームウインドウ");
     setDefaultCloseOperation(EXIT_ON_CLOSE);
-    setSize(1920, 1080);
-    setLocationRelativeTo(null);
+    //setLocationRelativeTo(null);
     setResizable(false);
-    contentPane.add(game.get_pane());
+    setSize(1014,537);
+    contentPane.add(game);
+    
+		//JFrameをフルスクリーンに
+		//gd.setFullScreenWindow(this);
+  
+    // ↓戻す
+    addKeyListener(game);
 
-    // タイマー開始。再描画を行う。
+    // ↓戻す
+    //タイマー開始。再描画を行う。
     tm.scheduleAtFixedRate(new TimerTask() {
 			@Override
 			public void run() {
-        game.reload();
-        contentPane.add(game.get_pane());
+        contentPane.add(game);
         contentPane.repaint();
 			}
 		},  0, 100);
 
+  }
+  public void end(){
+    System.exit(0); 
+  }
+  static MasterScene get_instance(){
+    return master;
   }
 }

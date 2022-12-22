@@ -3,6 +3,10 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Toolkit;
+
 public class Human extends StageObject implements ActionListener {
     protected Speed speed;
     private javax.swing.Timer timer;
@@ -218,24 +222,15 @@ public class Human extends StageObject implements ActionListener {
 class Player extends Human {
 
     // インスタンス生成
+    Image img = Toolkit.getDefaultToolkit().getImage("./img/character/Player(仮).png");
     ImageIcon icon1 = new ImageIcon("./img/character/Player(仮).png");
     JLabel player_lbl = new JLabel(icon1);
     
 
-    static Player player = new Player(70, 600, 50, 100);
+    static Player player = new Player(50, 350, 50, 100);
 
     public Player(int x, int y, int width, int height) {
         super(x, y, width, height, 100, 200, 200, 500, 300, 500);
-        player_lbl.setBounds(x, y, width, height);
-    }
-
-    /**
-     * プレイヤーラベルを返す
-     * 
-     * @author 綾部
-     */
-    public JLabel get() {
-        return player_lbl;
     }
 
     /**
@@ -250,7 +245,7 @@ class Player extends Human {
     }
 
     /**
-     * プレイヤーラベルの座標を変更する
+     * プレイヤーの座標を変更する
      * 
      * @param x プレイヤーのx座標
      * @param y プレイヤーのy座標
@@ -259,7 +254,15 @@ class Player extends Human {
     public void set(int x_, int y_) {
         x = x_;
         y = y_;
-        player_lbl.setBounds(x, y, 50, 100);
+    }
+
+
+    /**
+     * プレイヤー描画
+     * @param g
+     */
+    public void draw(Graphics g){
+        g.drawImage(img, x, y, player_lbl);
     }
 }
 

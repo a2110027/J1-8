@@ -1,9 +1,13 @@
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Arrays;
+
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Toolkit;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 /**
  * Stage描画用クラス
@@ -11,29 +15,51 @@ import javax.swing.JLabel;
  * 
  * @author 綾部
  */
-public class Stage{
+public class Stage extends  JPanel{
   // インスタンス生成
+  Image img = Toolkit.getDefaultToolkit().getImage("./img/object/Block(仮).png");
   ImageIcon block = new ImageIcon("./img/object/Block(仮).png");
   JLabel block_lbl = new JLabel(block);
   StageObjectsList stage_object_list = new StageObjectsList();
 
-  // ステージの 最大サイズ。
-  final int MAX_DATA_NUM_WIDTH = 50;
-  final int MAX_DATA_NUM_HEIGHT = 18;
-  public int lim = 0;
-  String[][] stage_data = new String[MAX_DATA_NUM_HEIGHT][MAX_DATA_NUM_WIDTH];
-  JLabel[][] stage_matrix = new JLabel[MAX_DATA_NUM_HEIGHT][MAX_DATA_NUM_WIDTH];
+  // 1パネルのサイズ
+  final int PANEL_SIZE = 50;
+  // 最大の横のブロック数
+  final int ROW= 50;
+  // 縦のブロック数
+  final int COL = 10;
 
+
+  // 横のサイズ
+  final int WIDTH = PANEL_SIZE * ROW;
+  // 縦のサイズ
+  final int HEIGHT = PANEL_SIZE * COL;
+
+  public int lim = 0;
+  String[][] stage_data = new String[COL][ROW];
+  JLabel[][] stage_matrix = new JLabel[COL][ROW];
+  String stage_data_[][] = {
+    {"1","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"},
+    {"1","0","0","0","0","0","0","1","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"},
+    {"1","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"},
+    {"1","0","0","0","0","0","1","1","1","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"},
+    {"1","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"},
+    {"1","0","0","0","0","1","1","1","1","1","0","0","0","1","1","1","0","0","1","1","1","0","0","0","1","1","1","0","0","0","0","0","0","0","0","0","0"},
+    {"1","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"},
+    {"1","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"},
+    {"1","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"},
+    {"1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1"},
+  };
 
   /**
+   * コンストラクタ
    * csvファイルを読み込み、配列化する。
    * 配列の中身が"1"のときにブロックを描画するようにした。
    * 配列の中身が"0"のときは何もないとして、描画しないことにする。
    * 
-   * @return stage_matrix csvファイルを読み込んで出来たステージラベルの配列
    * @author 綾部
    */
-  public JLabel[][] stage_object() {
+  public Stage(){
     try {
       stage_data = Files.readAllLines(Path.of("./stage/Stage.csv")).stream()
       .map(line -> line.split(","))
@@ -41,25 +67,9 @@ public class Stage{
     } catch (Exception e) {
       System.out.println(e.getMessage());
     }
-
-
-    for (int i = 0; i < MAX_DATA_NUM_HEIGHT; i++) {
-      for (int j = 0; j < MAX_DATA_NUM_WIDTH; j++) {
-        if (j == stage_data[i].length){
-          lim = j;
-          break;
-        }
-        if (stage_data[i][j].equals("1")) {
-          stage_matrix[i][j] = new JLabel(block);
-          stage_object_list.add_stage_object(new StageObject(j*50, i*50-25, 50, 50));
-        } else if (stage_data[i][j].equals("0")) {
-          stage_matrix[i][j] = new JLabel();
-        }
-      }
-    }
-
-    return stage_matrix;
   }
+
+
 
   public StageObjectsList get_stage_object_list() {
     return this.stage_object_list;
@@ -67,5 +77,21 @@ public class Stage{
 
   public int length(){
     return lim;
+  }
+
+  public void draw(Graphics g, int offset) {
+    int firstTileX = (int)Math.floor(offset / 50);
+    int lastTileX = firstTileX + (int)Math.floor(1000 / 50)+1;
+    lastTileX = Math.min(lastTileX, 50);
+    int firstTileY = 0;
+    int lastTileY =  10;
+    for (int i = firstTileY; i < lastTileY; i++) {
+      for (int j = firstTileX; j < lastTileX; j++) {
+        // この下のstage_data[i][j]をstage_data_[i][j]に変えると、csvファイルを読まなくなる。
+        if (stage_data[i][j].equals("1")) {
+            g.drawImage(img, j*50 - offset, i*50, this);
+        } 
+      } 
+    }
   }
 }
