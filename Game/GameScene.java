@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.Graphics;
-
+import java.util.Timer;
+import java.util.TimerTask;
 import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
 
@@ -18,7 +19,7 @@ public class GameScene extends JPanel implements KeyListener {
   Player player = Player.get_instance();
   Stage st = new Stage();
   BackGround bg = new BackGround();
-  
+  Timer tm = new Timer();
   MasterScene ms = MasterScene.get_instance();
 
   /**
@@ -31,6 +32,18 @@ public class GameScene extends JPanel implements KeyListener {
     // 各stageObjectクラスにstageObjectListを付与
     player.set_stage_object_list(st.get_stage_object_list());
 
+  }
+
+  public void gamestart(){
+    System.out.println("gamestart!\n");
+    //タイマー開始。再描画を行う。
+    tm.scheduleAtFixedRate(new TimerTask() {
+			@Override
+			public void run() {
+        contentPane.add(game);
+        contentPane.repaint();
+			}
+		},  0, 100);
   }
 
   /**
