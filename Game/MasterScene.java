@@ -28,7 +28,7 @@ public class MasterScene extends JFrame{
     setDefaultCloseOperation(EXIT_ON_CLOSE);
     setLocationRelativeTo(null);
     setResizable(false);
-    setSize(720,480);
+    setSize(1014,537);
 		//JFrameをフルスクリーンに
 		//gd.setFullScreenWindow(this);
 
