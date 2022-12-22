@@ -22,8 +22,7 @@ public class GameScene {
   BackGround bg = new BackGround();
   JLayeredPane p = new JLayeredPane();
   JLabel[][] ar = st.stage_object();
-  MasterScene ms = MasterScene.get_instance();
-  //MasterScene ms;
+  MasterScene ms = MasterScene.master;
 
   /**
    * コンストラクタ
@@ -31,6 +30,7 @@ public class GameScene {
    * @author 綾部
    */
   public GameScene() {
+
 
 
     // 各stageObjectクラスにstageObjectListを付与
@@ -56,22 +56,21 @@ public class GameScene {
     p.add(pl.get());
     p.setLayer(pl.get(),3);
 
-    // タイマー開始。再描画を行う。
-    tm.scheduleAtFixedRate(new TimerTask() {
+  }
+
+  public void gamestart(){
+     // タイマー開始。再描画を行う。
+     tm.scheduleAtFixedRate(new TimerTask() {
 			@Override
 			public void run() {
         reload();
-        //ms = MasterScene.get_instance();
-        //ms.contentPane.add(get_pane());
-        //ms.contentPane.repaint();
 
-        ms.get_contentpane().add(get_pane());
-        ms.get_contentpane().repaint();
+        ms.contentPane.add(get_pane());
+        ms.contentPane.repaint();
 			}
 		},  0, 100);
   }
 
-  
   /**
    * プレイヤーのみ再描画
    * 

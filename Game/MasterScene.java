@@ -12,9 +12,9 @@ public class MasterScene extends JFrame{
   // インスタンス生成
   static MasterScene master = new MasterScene();
   Container contentPane = getContentPane();
-  GameScene game = new GameScene();
   JPanel cardpanel;
   CardLayout layout;
+  GameScene game; //これだけここで
 
   GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
   GraphicsDevice gd = ge.getDefaultScreenDevice();
@@ -39,7 +39,9 @@ public class MasterScene extends JFrame{
     cardpanel.setLayout(layout);
 
     StartScene start = new StartScene();
-    GameScene game = new GameScene();
+    new GameScene();
+    game = GameScene.gs;
+    
 
     cardpanel.add(start, "StartScene");
     cardpanel.add(game.get_pane(), "GameScene");
@@ -51,11 +53,10 @@ public class MasterScene extends JFrame{
   public void ChangePanel(String s){
     layout.show(cardpanel, s);
     System.out.println(s + "Yes!");
+
+    
   }
 
-  public Container get_contentpane(){
-    return contentPane;
-  }
 
   public void end(){
     setVisible(false); 
