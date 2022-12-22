@@ -32,7 +32,6 @@ public class MasterScene extends JFrame{
 		//JFrameをフルスクリーンに
 		//gd.setFullScreenWindow(this);
 
-    addKeyListener(new KeyController());
     setFocusable(true);
 
 
@@ -58,6 +57,7 @@ public class MasterScene extends JFrame{
     System.out.println(s + "Yes!");
 
     if(s == "GameScene"){
+      addKeyListener(new KeyController());
       game.gamestart();
     }
   }

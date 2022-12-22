@@ -2,8 +2,6 @@ import javax.swing.*;
 import java.awt.Graphics;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.awt.event.KeyListener;
-import java.awt.event.KeyEvent;
 
 /**
  * プレイヤー描画
@@ -40,8 +38,7 @@ public class GameScene extends JPanel{
     tm.scheduleAtFixedRate(new TimerTask() {
 			@Override
 			public void run() {
-        //contentPane.add(game);
-        //contentPane.repaint();
+        repaint();
 			}
 		},  0, 100);
   }
