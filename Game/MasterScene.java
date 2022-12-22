@@ -55,7 +55,6 @@ public class MasterScene extends JFrame{
     System.out.println(s + "Yes!");
 
     if(s == "GameScene"){
-      game.setFocusable(true);
       game.gamestart();
     }
   }
