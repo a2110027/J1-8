@@ -3,6 +3,7 @@ import java.awt.Graphics;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.awt.event.*;
+import java.awt.*;
 
 /**
  * プレイヤー描画
@@ -14,7 +15,7 @@ import java.awt.event.*;
 public class GameScene extends JPanel implements ActionListener{
 
   // インスタンス生成
-  static GameScene gs = new GameScene();
+  static GameScene gs = new GameScene(); //MaterSceneコンストラクタでのnew以降ならいつでもアクセス可能です
   Player player = Player.player;
   Stage st = new Stage();
   BackGround bg = new BackGround();
@@ -49,7 +50,12 @@ public class GameScene extends JPanel implements ActionListener{
   }
 
   public void gamestart(){
+    for(Component c : gs.getComponents()){ //gs上のすべてのComponentを有効化(無効化することがあるので)
+      c.setEnabled(true);
+    }
+    
     tm = new Timer();
+
     player.timer.start();
     //タイマー開始。再描画を行う。
     tm.scheduleAtFixedRate(new TimerTask() {
@@ -106,6 +112,11 @@ public class GameScene extends JPanel implements ActionListener{
 
       PausePop pp = new PausePop();
       gs.add(pp);
+      for(Component c : gs.getComponents()){ //gs上のすべてのComponentを無効化
+        c.setEnabled(false);
+      }
+      
+      repaint(); //再描画しないとppが覆い隠される
       pp.setVisible(true);
     }
     
