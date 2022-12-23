@@ -1,8 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.awt.event.*;
+
 
 /** 
  * 全ての画面を司る。画面遷移にも関係している。
@@ -13,13 +11,13 @@ public class MasterScene extends JFrame implements ActionListener{
   
   // インスタンス生成
   static MasterScene master = new MasterScene();
-  GameScene game = new GameScene();
-  StartScene start = new StartScene();
-  Timer tm = new Timer();
-  KeyController kc = new KeyController();
-  
-  JButton start_button = new JButton("Start");
-  
+  Container contentPane = getContentPane();
+  JPanel cardpanel;
+  CardLayout layout;
+  GameScene game; //これだけここで
+
+  //GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+  //GraphicsDevice gd = ge.getDefaultScreenDevice();
   /**
    * コンストラクタ
    * 
@@ -33,52 +31,35 @@ public class MasterScene extends JFrame implements ActionListener{
 
     setResizable(false);
     setSize(1014,537);
+    contentPane.add(game);
+    
+		//JFrameをフルスクリーンに
+		//gd.setFullScreenWindow(this);
+  
+    // ↓戻す
+    addKeyListener(game);
 
-
-    // ほんとはここら辺はStartSceneに組み込みたい
-    start_button.addActionListener(this);
-    start_button.setActionCommand("GameStart");
-    start_button.setBounds(400,200,200,100 );
-    start.add(start_button);
-    //
-
-    // スタート画面を作成し、キー入力を受付てフォーカスさせる。
-    add(start);
-    addKeyListener(kc);
-    setFocusable(true);
-  }
-  public void end(){
-    System.exit(0); 
-  }
-  static MasterScene get_instance(){
-    return master;
-  }
-
-  /**
-   * 画面再描画のタイマーを起動する。
-   */
-  public void timerstart(){
+    // ↓戻す
+    //タイマー開始。再描画を行う。
     tm.scheduleAtFixedRate(new TimerTask() {
 			@Override
 			public void run() {
-        add(game);
-        repaint();
+        contentPane.add(game);
+        contentPane.repaint();
 			}
 		},  0, 100);
 
+    if(s == "GameScene"){
+      addKeyListener(new KeyController());
+      game.gamestart();
+    }
   }
 
-  /**
-   * panel1からpanel2へ遷移する
-   * @param panel1 遷移前
-   * @param panel2 遷移後
-   * @author 綾部
-   */
-  public void panel_change(JPanel panel1, JPanel panel2){
-    remove(panel1);
-    add(panel2);
-    repaint();
-    validate(); 
+
+  public void end(){
+    setVisible(false); 
+    dispose(); 
+    System.exit(0); 
   }
   
   /**
