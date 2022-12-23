@@ -9,7 +9,8 @@ import java.awt.Toolkit;
 
 public class Human extends StageObject implements ActionListener {
     protected Speed speed;
-    private javax.swing.Timer timer;
+    //private javax.swing.Timer timer; 12/23変更点、注意(by Fuki)
+    public javax.swing.Timer timer;
     private double TIMER_DERAY;
     private boolean non_move_flag;
 
@@ -19,7 +20,7 @@ public class Human extends StageObject implements ActionListener {
         this.speed = new Speed(default_ax, default_ay, init_vx, init_vy, max_vx, max_vy);
         this.TIMER_DERAY = 0.03;
         this.timer = new javax.swing.Timer((int)(TIMER_DERAY * 1000), this);
-        this.timer.start();
+        //this.timer.start(); 12/23変更点、注意(by Fuki)
     }
 
     // 時間更新関数ここから
@@ -279,8 +280,8 @@ class Player extends Human {
      * プレイヤー描画
      * @param g
      */
-    public void draw(Graphics g){
-        g.drawImage(img, x, y, player_lbl);
+    public void draw(Graphics g, int offset){
+        g.drawImage(img, x-offset, y, player_lbl);
     }
 }
 
