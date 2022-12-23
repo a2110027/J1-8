@@ -1,8 +1,8 @@
 import javax.swing.*;
 import java.awt.Graphics;
-
-import java.awt.event.KeyListener;
-import java.awt.event.KeyEvent;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.awt.event.*;
 
 /**
  * プレイヤー描画
@@ -11,15 +11,16 @@ import java.awt.event.KeyEvent;
  * 
  * @author 綾部
  */
-public class GameScene extends JPanel implements KeyListener {
+public class GameScene extends JPanel implements ActionListener{
 
   // インスタンス生成
   static GameScene gs = new GameScene();
-  Player player = Player.get_instance();
+  Player player = Player.player;
   Stage st = new Stage();
   BackGround bg = new BackGround();
+  Timer tm;
   
-  MasterScene ms = MasterScene.get_instance();
+  JButton backss, pauseb;
 
   /**
    * コンストラクタ
@@ -27,10 +28,38 @@ public class GameScene extends JPanel implements KeyListener {
    * @author 綾部
    */
   public GameScene() {
+    tm = new Timer();
+    setLayout(null);
+
+    backss = new JButton("Home");
+    backss.setBounds(0,0,100,50);
+    add(backss);
+    backss.addActionListener(this);
+    backss.setActionCommand("StartScene"); //転移先のpanel名を指定する。
+
+    pauseb = new JButton("Pause");
+    pauseb.setBounds(120,0,100,50);
+    add(pauseb);
+    pauseb.addActionListener(this);
+    pauseb.setActionCommand("Pause"); 
 
     // 各stageObjectクラスにstageObjectListを付与
     player.set_stage_object_list(st.get_stage_object_list());
 
+  }
+
+  public void gamestart(){
+    tm = new Timer();
+    player.timer.start();
+    //タイマー開始。再描画を行う。
+    tm.scheduleAtFixedRate(new TimerTask() {
+			@Override
+			public void run() {
+        repaint();
+			}
+		},  0, 100);
+
+    System.out.println("gamestart!\n"); //実行確認用
   }
 
   /**
@@ -55,68 +84,32 @@ public class GameScene extends JPanel implements KeyListener {
     offset = Math.max(offset-400, 0);
     bg.draw(g, 0);
     st.draw(g, offset);
-    player.draw(g);
+    player.draw(g, offset);
   }
 
-  /* ***************************************: */
+  public void actionPerformed(ActionEvent e) { 
+    String cmd = e.getActionCommand();
+    
+    MasterScene ms = MasterScene.master;
+    ms.ChangePanel(cmd);
 
-  /**
-   * 組み込んでしまったけれど、もしかしたら前のKeyControllerとして使うかもしれないのでファイルは残しておく。
-   * エリオが作ったところとして記録しておく。
-   */
-  // esc,上下左右,vキー(書き換えメニュー)の入力受付
-  @Override
-  public void keyPressed(KeyEvent e) {
-    // 関数名は適当
-    switch (e.getKeyCode()) {
-      case KeyEvent.VK_UP:
-        player.jump();
-        System.out.println("jump");
-        break;
-      case KeyEvent.VK_DOWN:
-        player.move_bottom();
-        System.out.println("down");
-        break;
-      case KeyEvent.VK_LEFT:
-        player.move_left();
-        System.out.println("left");
-        break;
-      case KeyEvent.VK_RIGHT:
-        player.move_right();
-        System.out.println("right");
-        break;
-      case KeyEvent.VK_V:
-        System.out.println("V");
-        break;
-      case KeyEvent.VK_ESCAPE:
-        System.out.println("ESC");
+    if(cmd == "StartScene"){
+      player.set(50, 350); //player位置初期化
 
-        System.exit(0);
+      player.speed.set_a(0, 0); //速度初期化(他の関数?)
+      player.speed.set_v(0, 0);
+      
+      player.timer.stop(); 
+    }else if(cmd == "Pause"){
+      tm.cancel(); //描写停止
+      player.timer.stop(); //位置更新停止
 
-        break;
+      PausePop pp = new PausePop();
+      gs.add(pp);
+      pp.setVisible(true);
+      pp.setFocusable(true);
     }
+    
   }
 
-  // 下２つは使わない
-  @Override
-  public void keyReleased(KeyEvent e) {
-    switch (e.getKeyCode()) {
-      case KeyEvent.VK_UP:
-        player.set_non_move_flag(true);
-        break;
-      case KeyEvent.VK_DOWN:
-        player.set_non_move_flag(true);
-        break;
-      case KeyEvent.VK_LEFT:
-        player.set_non_move_flag(true);
-        break;
-      case KeyEvent.VK_RIGHT:
-        player.set_non_move_flag(true);
-        break;
-    }
-  }
-
-  @Override
-  public void keyTyped(KeyEvent e) {
-  }
 }
