@@ -4,6 +4,7 @@ import java.nio.file.Path;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.io.File;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -11,12 +12,16 @@ import javax.swing.JPanel;
 /**
  * Stage描画用クラス
  * ブロックのみとりあえず実装
+ *  "1"通常のブロック
+ *  "2" すり抜け可能ブロック
+ *  "3" 上向き針ブロック(仮)
  * 
  * @author 綾部
  */
 public class Stage extends  JPanel{
   // インスタンス生成
   Image block = Toolkit.getDefaultToolkit().getImage("./img/object/GroundBlock.png");
+  Image board = Toolkit.getDefaultToolkit().getImage("./img/object/Board.png");
   Image needle = Toolkit.getDefaultToolkit().getImage("./img/object/Needle.png");
   StageObjectsList stage_object_list = new StageObjectsList();
 
@@ -70,6 +75,13 @@ public class Stage extends  JPanel{
     } catch (Exception e) {
       System.out.println(e.getMessage());
     }
+    try {
+      stage_data = Files.readAllLines(Path.of("./stage/Stage.csv")).stream()
+      .map(line -> line.split(","))
+      .toArray(String[][]::new);
+    } catch (Exception e) {
+      System.out.println(e.getMessage());
+    }
   }
 
   
@@ -91,8 +103,10 @@ public class Stage extends  JPanel{
       for (int j = firstTileX; j < lastTileX; j++) {
         // この下のstage_data[i][j]をstage_data_[i][j]に変えると、csvファイルを読まなくなる。
         if (stage_data[i][j].equals("1")) {
-            g.drawImage(block, j*32 - offset, i*32, this);
+            g.drawImage(block, j*32 - offset, i*32, this);        
         } else if(stage_data[i][j].equals("2")) {
+            g.drawImage(board, j*32 - offset, i*32, this);
+        } else if(stage_data[i][j].equals("3")) {
           g.drawImage(needle, j*32 - offset, i*32, this);
         } 
       }
