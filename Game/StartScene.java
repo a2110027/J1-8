@@ -13,17 +13,19 @@ public class StartScene extends JPanel implements ActionListener{
   // インスタンス生成
   JButton startb,endb;
   MasterScene ms;
-  ImageIcon startsky = new ImageIcon("./img/background/sky.png");
+  ImageIcon startsky = new ImageIcon("./img/background/サイバー.png");
   JLabel sky_lbl = new JLabel(startsky);
-
+  // 画面サイズ
+  final static int WIDTH = 960;
+  final static int HEIGHT = 480;
   public StartScene(){
-    setSize(1920, 1080);
+    setSize(WIDTH, HEIGHT);
     setLayout(null);
     
     startb = new JButton("Start");
     startb.setActionCommand("GameScene");
     startb.addActionListener(this);
-    startb.setBounds(300,300,200,100);
+    startb.setBounds(240,206,240,64);
     add(startb);
 
     endb = new JButton("Exit");
@@ -31,7 +33,7 @@ public class StartScene extends JPanel implements ActionListener{
     endb.addActionListener(this);
     endb.setBounds(0,0,200,50);
     add(endb);
-    sky_lbl.setBounds(0,0,1920,1080);
+    sky_lbl.setBounds(0,0,WIDTH,HEIGHT);
     add(sky_lbl);
 }
 
@@ -55,7 +57,7 @@ public void actionPerformed(ActionEvent e) {
    * @author 藤
    */
   public JLabel get_background() {
-    sky_lbl.setBounds(0, 0, 1000, 500);
+    sky_lbl.setBounds(0, 0, WIDTH,HEIGHT);
     return sky_lbl;
   }
 

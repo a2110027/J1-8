@@ -12,7 +12,7 @@ import java.awt.Toolkit;
 public class BackGround extends JPanel{
   // インスタンス生成
   
-  Image sky = Toolkit.getDefaultToolkit().getImage("./img/background/sky.png");
+  Image sky = Toolkit.getDefaultToolkit().getImage("./img/background/room.png");
 
 
   /**
@@ -31,6 +31,6 @@ public class BackGround extends JPanel{
    * @param offset 横スクロールする際に、背景もスクロールできるようにする為の値
    */
   public void draw(Graphics g, int offset){
-    g.drawImage(sky,  - offset, 0, this);
+    g.drawImage(sky,  -offset/2, 0, this);
   }
 }
