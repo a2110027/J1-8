@@ -151,7 +151,7 @@ class Player extends Human {
     JLabel player_lbl = new JLabel(icon1);
     
 
-    static Player player = new Player(50, 350, 50, 100);
+    static Player player = new Player(32, 384, 50, 100);
 
     public Player(int x, int y, int width, int height) {
         super(x, y, width, height, 100, 200, 200, 500, 300, 500);
@@ -185,8 +185,8 @@ class Player extends Human {
      * プレイヤー描画
      * @param g
      */
-    public void draw(Graphics g){
-        g.drawImage(img, x, y, player_lbl);
+    public void draw(Graphics g, int offset){
+        g.drawImage(img, x-offset, y, player_lbl);
     }
 }
 

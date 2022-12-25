@@ -4,30 +4,33 @@ import java.nio.file.Path;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.io.File;
 
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
  * Stage描画用クラス
  * ブロックのみとりあえず実装
+ *  "1"通常のブロック
+ *  "2" すり抜け可能ブロック
+ *  "3" 上向き針ブロック(仮)
  * 
  * @author 綾部
  */
 public class Stage extends  JPanel{
   // インスタンス生成
-  Image img = Toolkit.getDefaultToolkit().getImage("./img/object/Block(仮).png");
-  ImageIcon block = new ImageIcon("./img/object/Block(仮).png");
-  JLabel block_lbl = new JLabel(block);
+  Image block = Toolkit.getDefaultToolkit().getImage("./img/object/GroundBlock.png");
+  Image board = Toolkit.getDefaultToolkit().getImage("./img/object/Board.png");
+  Image needle = Toolkit.getDefaultToolkit().getImage("./img/object/Needle.png");
   StageObjectsList stage_object_list = new StageObjectsList();
 
   // 1パネルのサイズ
-  final int PANEL_SIZE = 50;
+  final int PANEL_SIZE = 32;
   // 最大の横のブロック数
-  final int ROW= 50;
+  final int ROW= 100;
   // 縦のブロック数
-  final int COL = 10;
+  final int COL = 15;
 
 
   // 横のサイズ
@@ -39,6 +42,11 @@ public class Stage extends  JPanel{
   String[][] stage_data = new String[COL][ROW];
   JLabel[][] stage_matrix = new JLabel[COL][ROW];
   String stage_data_[][] = {
+    {"1","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"},
+    {"1","0","0","0","0","0","0","1","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"},
+    {"1","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"},
+    {"1","0","0","0","0","0","1","1","1","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"},
+    {"1","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"},
     {"1","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"},
     {"1","0","0","0","0","0","0","1","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"},
     {"1","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"},
@@ -67,10 +75,16 @@ public class Stage extends  JPanel{
     } catch (Exception e) {
       System.out.println(e.getMessage());
     }
+    try {
+      stage_data = Files.readAllLines(Path.of("./stage/Stage.csv")).stream()
+      .map(line -> line.split(","))
+      .toArray(String[][]::new);
+    } catch (Exception e) {
+      System.out.println(e.getMessage());
+    }
   }
 
-
-
+  
   public StageObjectsList get_stage_object_list() {
     return this.stage_object_list;
   }
@@ -80,18 +94,22 @@ public class Stage extends  JPanel{
   }
 
   public void draw(Graphics g, int offset) {
-    int firstTileX = (int)Math.floor(offset / 50);
-    int lastTileX = firstTileX + (int)Math.floor(1000 / 50)+1;
-    lastTileX = Math.min(lastTileX, 50);
+    int firstTileX = (int)Math.floor(offset / 32);
+    int lastTileX = firstTileX + (int)Math.floor(960 / 32)+1;
+    lastTileX = Math.min(lastTileX, 100);
     int firstTileY = 0;
-    int lastTileY =  10;
+    int lastTileY =  15;
     for (int i = firstTileY; i < lastTileY; i++) {
       for (int j = firstTileX; j < lastTileX; j++) {
         // この下のstage_data[i][j]をstage_data_[i][j]に変えると、csvファイルを読まなくなる。
         if (stage_data[i][j].equals("1")) {
-            g.drawImage(img, j*50 - offset, i*50, this);
+            g.drawImage(block, j*32 - offset, i*32, this);        
+        } else if(stage_data[i][j].equals("2")) {
+            g.drawImage(board, j*32 - offset, i*32, this);
+        } else if(stage_data[i][j].equals("3")) {
+          g.drawImage(needle, j*32 - offset, i*32, this);
         } 
-      } 
+      }
     }
   }
 }

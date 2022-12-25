@@ -80,11 +80,11 @@ public class GameScene extends JPanel implements ActionListener{
   public void paintComponent(Graphics g) {
     super.paintComponent(g);
     int offset = this.player.get_x();
-    offset = Math.min(offset, 1550);
-    offset = Math.max(offset-400, 0);
-    bg.draw(g, 0);
+    offset = Math.min(offset, 2560);
+    offset = Math.max(offset-320, 0);
+    bg.draw(g, offset);
     st.draw(g, offset);
-    player.draw(g);
+    player.draw(g, offset);
   }
 
   public void actionPerformed(ActionEvent e) { 
@@ -94,7 +94,11 @@ public class GameScene extends JPanel implements ActionListener{
     ms.ChangePanel(cmd);
 
     if(cmd == "StartScene"){
+<<<<<<< HEAD
       player.set(50, 350); //player位置初期化
+=======
+      player.set(32, 384); //player位置初期化
+>>>>>>> 39766ca4b20a5356552c022aa85f9284c54e1859
 
       player.speed.set_a(0, 0); //速度初期化(他の関数?)
       player.speed.set_v(0, 0);
@@ -107,6 +111,10 @@ public class GameScene extends JPanel implements ActionListener{
       PausePop pp = new PausePop();
       gs.add(pp);
       pp.setVisible(true);
+<<<<<<< HEAD
+=======
+      pp.setFocusable(true);
+>>>>>>> 39766ca4b20a5356552c022aa85f9284c54e1859
     }
     
   }

@@ -36,9 +36,23 @@ public class PausePop extends JPanel implements ActionListener{
     public void actionPerformed(ActionEvent e){
        String b = e.getActionCommand();
 
+<<<<<<< HEAD
        if(b == "exit"){
         MasterScene ms = MasterScene.master;
         ms.ChangePanel("StartScene");
+=======
+       if(b == "exit"){ //一時保存?とりあえず今は初期化で実装
+        MasterScene ms = MasterScene.master;
+        Player player = Player.player;
+
+        player.set(50, 350); //player位置初期化
+        player.speed.set_a(0, 0); //速度初期化(他の関数?)
+        player.speed.set_v(0, 0);
+        player.timer.stop(); 
+
+        ms.ChangePanel("StartScene");
+        this.setVisible(false);
+>>>>>>> 39766ca4b20a5356552c022aa85f9284c54e1859
        }else if(b == "continue"){
         this.setVisible(false);
         GameScene gs = GameScene.gs;
