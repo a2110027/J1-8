@@ -56,11 +56,30 @@ public class GameScene extends JPanel implements ActionListener{
 			@Override
 			public void run() {
         repaint();
+        // プレイヤーのx座標が100になった時にエンドシーンに切り替わる。描画間隔的に、ゆっくり100にならないと起動しない。
+        if(player.get_x() >= 3136){
+          end();
+        }
 			}
 		},  0, 100);
 
     System.out.println("gamestart!\n"); //実行確認用
   }
+
+  
+  /**
+   * 死亡またはクリアによるゲーム終了画面遷移用
+   * @author 綾部
+   */
+  public void end(){
+    MasterScene ms = MasterScene.master;
+    ms.ChangePanel("EndScene");
+    tm.cancel(); //描写停止
+    player.timer.stop(); //位置更新停止
+
+  }
+
+
 
   /**
    * インスタンスを返す

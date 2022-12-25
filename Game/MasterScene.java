@@ -42,11 +42,12 @@ public class MasterScene extends JFrame{
     StartScene start = new StartScene();
     new GameScene();
     game = GameScene.gs;
+    EndScene end = new EndScene();
     
 
     cardpanel.add(start, "StartScene");
     cardpanel.add(game, "GameScene");
-    
+    cardpanel.add(end, "EndScene");
     contentPane.add(cardpanel);
 
   }
@@ -58,6 +59,8 @@ public class MasterScene extends JFrame{
     if(s == "GameScene"){
       addKeyListener(new KeyController());
       game.gamestart();
+    }else if(s == "EndScene"){
+      
     }
   }
 
