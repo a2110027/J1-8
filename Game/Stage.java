@@ -4,8 +4,8 @@ import java.nio.file.Path;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
-import java.io.File;
-
+import java.io.*;
+import java.util.*;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -24,6 +24,7 @@ public class Stage extends  JPanel{
   Image board = Toolkit.getDefaultToolkit().getImage("./img/object/Board.png");
   Image needle = Toolkit.getDefaultToolkit().getImage("./img/object/Needle.png");
   StageObjectsList stage_object_list = new StageObjectsList();
+  BufferedReader br = null;
 
   // 1パネルのサイズ
   final int PANEL_SIZE = 32;
@@ -32,6 +33,8 @@ public class Stage extends  JPanel{
   // 縦のブロック数
   final int COL = 15;
 
+  // stage ファイル
+  String stage_name = "./stage/Stage.csv";
 
   // 横のサイズ
   final int WIDTH = PANEL_SIZE * ROW;
@@ -68,19 +71,37 @@ public class Stage extends  JPanel{
    * @author 綾部
    */
   public Stage(){
-    try {
+/*     try {
       stage_data = Files.readAllLines(Path.of("./stage/Stage.csv")).stream()
       .map(line -> line.split(","))
       .toArray(String[][]::new);
     } catch (Exception e) {
       System.out.println(e.getMessage());
     }
-    try {
-      stage_data = Files.readAllLines(Path.of("./stage/Stage.csv")).stream()
-      .map(line -> line.split(","))
-      .toArray(String[][]::new);
+ */
+  try {
+    File file = new File(stage_name);
+    br = new BufferedReader(new FileReader(file));
+    // readLineで一行ずつ読み込む;
+    int index = 0;
+    String line;
+    while ((line = br.readLine()) != null) {
+      // lineをカンマで分割し、配列dataに保持
+      stage_data[index] = line.split(",");
+      index++;
+      }
+      // catch-finally部分は同様なので省略
     } catch (Exception e) {
       System.out.println(e.getMessage());
+    }
+      // 配列に格納したデータを表示（データ間にスペース）
+      for (int i = 0; i < COL; i++) {
+      // データがなくなったら終了
+      if (stage_data[i] == null) break;
+      for (int j = 0; j < stage_data[i].length; j++) {
+        System.out.print(stage_data[i][j] + " ");
+      }
+      System.out.println();
     }
   }
 
