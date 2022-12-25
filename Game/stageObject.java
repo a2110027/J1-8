@@ -167,13 +167,18 @@ class StageObjectsList {
 }
 
 
-
+/**
+ * 通常のブロックのクラス
+ */
 class Block extends StageObject{
     public Block(int x, int y, int width, int height){
         super(x, y, width, height);
     }
 }
 
+/**
+ * 下にくぐれる板のクラス
+ */
 class Board extends StageObject{
     public Board(int x, int y, int width, int height){
         super(x, y, width, height);
@@ -181,6 +186,9 @@ class Board extends StageObject{
 }
 
 
+/**
+ * 上向きの針のクラス。当たったら死亡する。
+ */
 class Needle extends StageObject{
     public Needle(int x, int y, int width, int height){
         super(x, y, width, height);
