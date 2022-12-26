@@ -67,6 +67,7 @@ public class Stage extends  JPanel{
     } catch (Exception e) {
       System.out.println(e.getMessage());
     }
+    stage_object_list.load_from_str_arr(stage_data, COL, ROW);
   }
 
 
@@ -90,8 +91,8 @@ public class Stage extends  JPanel{
         // この下のstage_data[i][j]をstage_data_[i][j]に変えると、csvファイルを読まなくなる。
         if (stage_data[i][j].equals("1")) {
             g.drawImage(img, j*50 - offset, i*50, this);
-        } 
-      } 
+        }
+      }
     }
   }
 }

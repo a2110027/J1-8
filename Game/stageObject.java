@@ -128,6 +128,23 @@ class StageObjectsList {
 
         this.stage_obj_list.add(targetIndex, new_obj);
     }
+    // Stringの2次元配列のステージデータを読み込んでstage_obj_listに格納する関数
+    public void load_from_str_arr(String stage_data[][], int rows, int cols) {
+        for (int i=0; i<rows; i++) {
+            for (int j=0; j<cols; j++) {
+                // ブロックごとにインスタンスを追加
+                switch (stage_data[i][j]) {
+                    case "0":
+                        break;
+                    case "1":
+                        add_stage_object(new StageObject(j*50, i*50, 50, 50));
+                    default:
+                        break;
+                }
+            }
+        }
+        System.out.println("set!");
+    }
     // ステージオブジェクトを追加する関数ここまで
 
 
