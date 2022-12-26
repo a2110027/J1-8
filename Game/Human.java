@@ -53,19 +53,21 @@ public class Human extends StageObject implements ActionListener {
                 if (speed.get_vy() < 0) {
                     speed.set_v(speed.get_vx(), 0);
                     speed.set_a(speed.get_ax(), speed.get_ay());
-                    this.y = prev_y;
+                    this.y = collision_object.get_bottom_line()[0][1];
                 }
                 // break;
             case "right":
                 if (speed.get_vx() > 0) {
                     speed.set_v(0, speed.get_vy());
                     speed.set_a(0, speed.get_ay());
+                    this.x = collision_object.get_left_line()[0][0];
                 }
                 // break;
             case "bottom":
                 if (speed.get_vy() > 0) {
                     speed.set_v(speed.get_vx(), 0);
                     speed.set_a(speed.get_ax(), 0);
+                    this.y = collision_object.get_top_line()[0][1];
                 }
                 this.y = prev_y;
                 // break;
@@ -73,13 +75,11 @@ public class Human extends StageObject implements ActionListener {
                 if (speed.get_vx() < 0) {
                     speed.set_v(0, speed.get_vy());
                     speed.set_a(0, speed.get_ay());
+                    this.x = collision_object.get_right_line()[0][0];
                 }
                 // break;
             default:
-                if (collision_place != "not") {
-                    System.out.println("collision: "+collision_place);
-                }
-            break;
+                break;
         }
         // System.out.println(String.format("(x, y) = (%d, %d), v = (%.3f, %.3f), a = (%.3f, %.3f)", this.x, this.y, this.speed.get_vx(), this.speed.get_vy(), this.speed.get_ax(), this.speed.get_ay()));
         setChanged();
@@ -118,7 +118,7 @@ public class Human extends StageObject implements ActionListener {
             return result;
         }
         // 衝突座標の許容範囲の設定(移動するとき座標変化は1ずつではないため許容範囲を設ける必要がある)
-        int tolerate_range = 20;
+        int tolerate_range = 10;
         // Humanの各辺の始点と終点座標の設定([[x, y], [x, y]]という2次元配列で保存)
         int human_top_line[][] = new int[][]{{x, y}, {x+width, y}};
         int human_right_line[][] = new int[][]{{x+width, y}, {x+width, y+height}};
@@ -134,8 +134,8 @@ public class Human extends StageObject implements ActionListener {
             // System.out.println(stage_obj_list.get_collision_list(range_x, range_y).size());
             // 上衝突の判定
             if (obj_bottom_line[0][1]-tolerate_range<=human_top_line[0][1] && human_top_line[0][1]<=obj_bottom_line[0][1]) {
-                System.out.println(String.format("human-top:(%d, %d)~(%d, %d)", human_top_line[0][0], human_top_line[0][1], human_top_line[1][0], human_top_line[1][1]));
-                System.out.println(String.format("obj-bottom:(%d, %d)~(%d, %d)", obj_bottom_line[0][0], obj_bottom_line[0][1], obj_bottom_line[1][0], obj_bottom_line[1][1]));
+                // System.out.println(String.format("human-top:(%d, %d)~(%d, %d)", human_top_line[0][0], human_top_line[0][1], human_top_line[1][0], human_top_line[1][1]));
+                // System.out.println(String.format("obj-bottom:(%d, %d)~(%d, %d)", obj_bottom_line[0][0], obj_bottom_line[0][1], obj_bottom_line[1][0], obj_bottom_line[1][1]));
                 if ((obj_bottom_line[0][0]<=human_top_line[0][0] && human_top_line[0][0]<=obj_bottom_line[1][0]) || (obj_bottom_line[0][0]<=human_top_line[1][0] && human_top_line[1][0]<=obj_bottom_line[1][0])) {
                     result[0] = "top";
                     result[1] = collision_obj;
@@ -144,8 +144,8 @@ public class Human extends StageObject implements ActionListener {
             }
             // 右衝突の判定
             if (obj_left_line[0][0]<=human_right_line[0][0] && human_right_line[0][0]<=obj_left_line[0][0]+tolerate_range) {
-                System.out.println(String.format("human-right:(%d, %d)~(%d, %d)", human_right_line[0][0], human_right_line[0][1], human_right_line[1][0], human_right_line[1][1]));
-                System.out.println(String.format("obj-left:(%d, %d)~(%d, %d)", obj_left_line[0][0], obj_left_line[0][1], obj_left_line[1][0], obj_left_line[1][1]));
+                // System.out.println(String.format("human-right:(%d, %d)~(%d, %d)", human_right_line[0][0], human_right_line[0][1], human_right_line[1][0], human_right_line[1][1]));
+                // System.out.println(String.format("obj-left:(%d, %d)~(%d, %d)", obj_left_line[0][0], obj_left_line[0][1], obj_left_line[1][0], obj_left_line[1][1]));
                 if ((obj_left_line[0][1]<=human_right_line[0][1] && human_right_line[0][1]<=obj_left_line[1][1]) || (obj_left_line[0][1]<=human_right_line[1][1] && human_right_line[1][1]<=obj_left_line[1][1])) {
                     result[0] = "right";
                     result[1] = collision_obj;
@@ -154,8 +154,8 @@ public class Human extends StageObject implements ActionListener {
             }
             // 下衝突の判定
             if (obj_top_line[0][1]<=human_bottom_line[0][1] && human_bottom_line[0][1]<=obj_top_line[0][1]+tolerate_range) {
-                System.out.println(String.format("human-bottom:(%d, %d)~(%d, %d)", human_bottom_line[0][0], human_bottom_line[0][1], human_bottom_line[1][0], human_bottom_line[1][1]));
-                System.out.println(String.format("obj-top:(%d, %d)~(%d, %d)", obj_top_line[0][0], obj_top_line[0][1], obj_top_line[1][0], obj_top_line[1][1]));
+                // System.out.println(String.format("human-bottom:(%d, %d)~(%d, %d)", human_bottom_line[0][0], human_bottom_line[0][1], human_bottom_line[1][0], human_bottom_line[1][1]));
+                // System.out.println(String.format("obj-top:(%d, %d)~(%d, %d)", obj_top_line[0][0], obj_top_line[0][1], obj_top_line[1][0], obj_top_line[1][1]));
                 if ((obj_top_line[0][0]<=human_bottom_line[0][0] && human_bottom_line[0][0]<=obj_top_line[1][0]) || (obj_top_line[0][0]<=human_bottom_line[1][0] && human_bottom_line[1][0]<=obj_top_line[1][0])) {
                     result[0] = "bottom";
                     result[1] = collision_obj;
@@ -164,8 +164,8 @@ public class Human extends StageObject implements ActionListener {
             }
             // 左衝突の判定
             if (obj_right_line[0][0]-tolerate_range<=human_left_line[0][0] && human_left_line[0][0]<=obj_right_line[0][0]) {
-                System.out.println(String.format("human-left:(%d, %d)~(%d, %d)", human_left_line[0][0], human_left_line[0][1], human_left_line[1][0], human_left_line[1][1]));
-                System.out.println(String.format("obj-right:(%d, %d)~(%d, %d)", obj_right_line[0][0], obj_right_line[0][1], obj_right_line[0][0], obj_right_line[1][1]));
+                // System.out.println(String.format("human-left:(%d, %d)~(%d, %d)", human_left_line[0][0], human_left_line[0][1], human_left_line[1][0], human_left_line[1][1]));
+                // System.out.println(String.format("obj-right:(%d, %d)~(%d, %d)", obj_right_line[0][0], obj_right_line[0][1], obj_right_line[0][0], obj_right_line[1][1]));
                 if ((obj_right_line[0][1]<=human_left_line[0][1] && human_left_line[0][1]<=obj_right_line[1][1]) || (obj_right_line[0][1]<=human_left_line[1][1] && human_left_line[1][1]<=obj_right_line[1][1])) {
                     result[0] = "left";
                     result[1] = collision_obj;
