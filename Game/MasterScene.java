@@ -16,8 +16,10 @@ public class MasterScene extends JFrame{
   CardLayout layout;
   GameScene game; //これだけここで
 
-  //GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-  //GraphicsDevice gd = ge.getDefaultScreenDevice();
+  // 画面サイズ
+  final static int WIDTH = 974;
+  final static int HEIGHT = 517;
+
   /**
    * コンストラクタ
    * 
@@ -26,12 +28,9 @@ public class MasterScene extends JFrame{
   public MasterScene() {
     super("ゲームウインドウ");
     setDefaultCloseOperation(EXIT_ON_CLOSE);
-    setLocationRelativeTo(null);
+    //setLocationRelativeTo(null);
     setResizable(false);
-    setSize(1014,537);
-		//JFrameをフルスクリーンに
-		//gd.setFullScreenWindow(this);
-
+    setSize(WIDTH,HEIGHT);
     setFocusable(true);
 
 

@@ -184,3 +184,25 @@ class StageObjectsList {
     }
     // 衝突オブジェクトの読み込み関数ここまで
 }
+
+
+
+class Block extends StageObject{
+    public Block(int x, int y, int width, int height){
+        super(x, y, width, height);
+    }
+}
+
+class Board extends StageObject{
+    public Board(int x, int y, int width, int height){
+        super(x, y, width, height);
+    }
+}
+
+
+class Needle extends StageObject{
+    public Needle(int x, int y, int width, int height){
+        super(x, y, width, height);
+    }
+}
+
