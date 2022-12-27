@@ -16,15 +16,10 @@ public class MasterScene extends JFrame{
   CardLayout layout;
   GameScene game; //これだけここで
 
-<<<<<<< HEAD
-  //GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-  //GraphicsDevice gd = ge.getDefaultScreenDevice();
-=======
   // 画面サイズ
   final static int WIDTH = 974;
   final static int HEIGHT = 517;
 
->>>>>>> 39766ca4b20a5356552c022aa85f9284c54e1859
   /**
    * コンストラクタ
    * 
@@ -35,26 +30,6 @@ public class MasterScene extends JFrame{
     setDefaultCloseOperation(EXIT_ON_CLOSE);
     //setLocationRelativeTo(null);
     setResizable(false);
-<<<<<<< HEAD
-    setSize(1014,537);
-    contentPane.add(game);
-    
-		//JFrameをフルスクリーンに
-		//gd.setFullScreenWindow(this);
-  
-    // ↓戻す
-    addKeyListener(game);
-
-    // ↓戻す
-    //タイマー開始。再描画を行う。
-    tm.scheduleAtFixedRate(new TimerTask() {
-			@Override
-			public void run() {
-        contentPane.add(game);
-        contentPane.repaint();
-			}
-		},  0, 100);
-=======
     setSize(WIDTH,HEIGHT);
     setFocusable(true);
 
@@ -79,7 +54,6 @@ public class MasterScene extends JFrame{
   public void ChangePanel(String s){
     layout.show(cardpanel, s);
     System.out.println(s + "Yes!");
->>>>>>> 39766ca4b20a5356552c022aa85f9284c54e1859
 
     if(s == "GameScene"){
       addKeyListener(new KeyController());
@@ -93,24 +67,7 @@ public class MasterScene extends JFrame{
     dispose(); 
     System.exit(0); 
   }
-<<<<<<< HEAD
-  
-  /**
-   * 画面遷移を感知する
-   * もし画面遷移がGameStartのときは、タイマー(画面描画)を開始する
-   * @author 綾部
-   */
-  public void actionPerformed(ActionEvent e) {
-    String cmd = e.getActionCommand();
-
-    if(cmd == "GameStart"){
-      panel_change(start, game);
-      timerstart();
-
-    } 
-=======
   static MasterScene get_instance(){
     return master;
->>>>>>> 39766ca4b20a5356552c022aa85f9284c54e1859
   }
 }
