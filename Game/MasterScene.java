@@ -13,6 +13,7 @@ public class MasterScene extends JFrame{
   static MasterScene master = new MasterScene();
   Container contentPane = getContentPane();
   JPanel cardpanel;
+  KeyController kc = new KeyController();
   CardLayout layout;
   GameScene game; //これだけここで
 
@@ -55,12 +56,13 @@ public class MasterScene extends JFrame{
   public void ChangePanel(String s){
     layout.show(cardpanel, s);
     System.out.println(s + "Yes!");
-
     if(s == "GameScene"){
-      addKeyListener(new KeyController());
+      addKeyListener(kc);
       game.gamestart();
     }else if(s == "EndScene"){
-      
+      removeKeyListener(kc);
+    }else if(s == "StartScene"){
+      removeKeyListener(kc);
     }
   }
 

@@ -18,7 +18,7 @@ public class EndScene extends JPanel implements ActionListener {
     setSize(WIDTH, HEIGHT);
     setLayout(null);
 
-    restart_btn = new JButton("<html><font size = 8 color = red>ReStart</font></html>");
+    restart_btn = new JButton("<html><font size = 8 color = red>Restart</font></html>");
     restart_btn.setActionCommand("GameScene");
     restart_btn.addActionListener(this);
     restart_btn.setBounds(400, 206, 160, 64);
