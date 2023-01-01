@@ -23,12 +23,12 @@ public class Stage extends  JPanel{
   Image block = Toolkit.getDefaultToolkit().getImage("./img/object/GroundBlock.png");
   Image board = Toolkit.getDefaultToolkit().getImage("./img/object/Board.png");
   Image needle = Toolkit.getDefaultToolkit().getImage("./img/object/Needle.png");
-  StageObjectsList stage_object_list = new StageObjectsList();
+  ObstacleList obstacle_list = new ObstacleList();
 
   // 1パネルのサイズ
   final int PANEL_SIZE = 32;
   // 最大の横のブロック数
-  final int ROW= 100;
+  final int ROW = 100;
   // 縦のブロック数
   final int COL = 15;
 
@@ -72,21 +72,22 @@ public class Stage extends  JPanel{
       stage_data = Files.readAllLines(Path.of("./stage/Stage.csv")).stream()
       .map(line -> line.split(","))
       .toArray(String[][]::new);
+      obstacle_list.load_from_str_arr(stage_data, COL, ROW);
     } catch (Exception e) {
       System.out.println(e.getMessage());
     }
-    try {
-      stage_data = Files.readAllLines(Path.of("./stage/Stage.csv")).stream()
-      .map(line -> line.split(","))
-      .toArray(String[][]::new);
-    } catch (Exception e) {
-      System.out.println(e.getMessage());
-    }
+    // try {
+    //   stage_data = Files.readAllLines(Path.of("./stage/Stage.csv")).stream()
+    //   .map(line -> line.split(","))
+    //   .toArray(String[][]::new);
+    // } catch (Exception e) {
+    //   System.out.println(e.getMessage());
+    // }
   }
 
-  
-  public StageObjectsList get_stage_object_list() {
-    return this.stage_object_list;
+
+  public ObstacleList get_obstacle_list() {
+    return this.obstacle_list;
   }
 
   public int length(){
@@ -94,22 +95,28 @@ public class Stage extends  JPanel{
   }
 
   public void draw(Graphics g, int offset) {
-    int firstTileX = (int)Math.floor(offset / 32);
-    int lastTileX = firstTileX + (int)Math.floor(960 / 32)+1;
-    lastTileX = Math.min(lastTileX, 100);
-    int firstTileY = 0;
-    int lastTileY =  15;
-    for (int i = firstTileY; i < lastTileY; i++) {
-      for (int j = firstTileX; j < lastTileX; j++) {
-        // この下のstage_data[i][j]をstage_data_[i][j]に変えると、csvファイルを読まなくなる。
-        if (stage_data[i][j].equals("1")) {
-            g.drawImage(block, j*32 - offset, i*32, this);        
-        } else if(stage_data[i][j].equals("2")) {
-            g.drawImage(board, j*32 - offset, i*32, this);
-        } else if(stage_data[i][j].equals("3")) {
-          g.drawImage(needle, j*32 - offset, i*32, this);
-        } 
-      }
+    // int firstTileX = (int)Math.floor(offset / 32);
+    // int lastTileX = firstTileX + (int)Math.floor(960 / 32)+1;
+    // lastTileX = Math.min(lastTileX, 100);
+    // int firstTileY = 0;
+    // int lastTileY =  15;
+    for (Obstacle obstacle : obstacle_list.get_list()) {
+      g.drawImage(obstacle.get_image(), obstacle.x - offset, obstacle.y, this);
     }
+    // for (int i = firstTileY; i < lastTileY; i++) {
+    //   for (int j = firstTileX; j < lastTileX; j++) {
+    //     // この下のstage_data[i][j]をstage_data_[i][j]に変えると、csvファイルを読まなくなる。
+    //     if (stage_data[i][j].equals("1")) {
+    //         g.drawImage(block, j*32 - offset, i*32, this);
+    //         System.out.println(i+" "+j);
+    //     } else if(stage_data[i][j].equals("2")) {
+    //         g.drawImage(board, j*32 - offset, i*32, this);
+    //         System.out.println(i+" "+j);
+    //     } else if(stage_data[i][j].equals("3")) {
+    //       g.drawImage(needle, j*32 - offset, i*32, this);
+    //       System.out.println(i+" "+j);
+    //     }
+    //   }
+    // }
   }
 }
