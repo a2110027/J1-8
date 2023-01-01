@@ -80,9 +80,9 @@ public class GameScene extends JPanel implements ActionListener{
   public void paintComponent(Graphics g) {
     super.paintComponent(g);
     int offset = this.player.get_x();
-    offset = Math.min(offset, 1550);
-    offset = Math.max(offset-400, 0);
-    bg.draw(g, 0);
+    offset = Math.min(offset, 2560);
+    offset = Math.max(offset-320, 0);
+    bg.draw(g, offset);
     st.draw(g, offset);
     player.draw(g, offset);
   }
@@ -94,7 +94,7 @@ public class GameScene extends JPanel implements ActionListener{
     ms.ChangePanel(cmd);
 
     if(cmd == "StartScene"){
-      player.set(50, 350); //player位置初期化
+      player.set(32, 384); //player位置初期化
 
       player.speed.set_a(0, 0); //速度初期化(他の関数?)
       player.speed.set_v(0, 0);
