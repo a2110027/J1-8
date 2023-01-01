@@ -47,13 +47,14 @@ public class Human extends StageObject implements ActionListener {
         // 衝突処理
         Object collision_judge[] = is_collision();
         String collision_place = (String)collision_judge[0];
-        StageObject collision_object = (StageObject)collision_judge[1];
+        Obstacle collision_object = (Obstacle)collision_judge[1];
         switch (collision_place) {
             case "top":
                 if (speed.get_vy() < 0) {
                     speed.set_v(speed.get_vx(), 0);
                     speed.set_a(speed.get_ax(), speed.get_ay());
                     this.y = collision_object.get_bottom_line()[0][1];
+                    System.out.println("collision: top");
                 }
                 // break;
             case "right":
@@ -61,21 +62,23 @@ public class Human extends StageObject implements ActionListener {
                     speed.set_v(0, speed.get_vy());
                     speed.set_a(0, speed.get_ay());
                     this.x = collision_object.get_left_line()[0][0];
+                    System.out.println("collision: right");
                 }
                 // break;
             case "bottom":
                 if (speed.get_vy() > 0) {
                     speed.set_v(speed.get_vx(), 0);
                     speed.set_a(speed.get_ax(), 0);
-                    this.y = collision_object.get_top_line()[0][1];
+                    this.y = collision_object.get_top_line()[0][1] - this.height;
+                    System.out.println("collision: bottom");
                 }
-                this.y = prev_y;
                 // break;
             case "left":
                 if (speed.get_vx() < 0) {
                     speed.set_v(0, speed.get_vy());
                     speed.set_a(0, speed.get_ay());
                     this.x = collision_object.get_right_line()[0][0];
+                    System.out.println("collision: left");
                 }
                 // break;
             default:
@@ -111,8 +114,8 @@ public class Human extends StageObject implements ActionListener {
      */
     public Object[] is_collision() {
         Object result[] = new Object[2];
-        if (this.get_stage_object_list() == null) {
-            System.out.println("HumanClass.java; Human.is_collision: stage_object_listがnullです");
+        if (this.get_obstacle_list() == null) {
+            System.out.println("HumanClass.java; Human.is_collision: obstacle_listがnullです");
             result[0] = "not";
             result[1] = null;
             return result;
@@ -124,7 +127,7 @@ public class Human extends StageObject implements ActionListener {
         int human_right_line[][] = new int[][]{{x+width, y}, {x+width, y+height}};
         int human_bottom_line[][] = new int[][]{{x, y+height}, {x+width, y+height}};
         int human_left_line[][] = new int[][]{{x, y}, {x, y+height}};
-        for (StageObject collision_obj : stage_obj_list.get_collision_list(this.range_x, this.range_y)) {
+        for (Obstacle collision_obj : obstacle_list.get_collision_list(this.range_x, this.range_y)) {
             int obj_top_line[][] = collision_obj.get_top_line();
             int obj_right_line[][] = collision_obj.get_right_line();
             int obj_bottom_line[][] = collision_obj.get_bottom_line();
@@ -291,7 +294,7 @@ class Player extends Human {
 
 
 class Enemy extends Human {
-    public Enemy(int x, int y, int width, int height, StageObjectsList stage_obj_list) {
+    public Enemy(int x, int y, int width, int height, ObstacleList obstacle_list) {
         super(x, y, width, height, 100, 100, 200, 200, 200, 200);
     }
 }

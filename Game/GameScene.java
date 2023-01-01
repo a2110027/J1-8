@@ -44,7 +44,7 @@ public class GameScene extends JPanel implements ActionListener{
     pauseb.setActionCommand("Pause"); 
 
     // 各stageObjectクラスにstageObjectListを付与
-    player.set_stage_object_list(st.get_stage_object_list());
+    player.set_obstacle_list(st.get_obstacle_list());
 
   }
 
