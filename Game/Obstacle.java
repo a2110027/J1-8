@@ -65,17 +65,20 @@ class ObstacleList {
                         break;
                     case "1":
                         add_obstacle(new Block(j * 32, i * 32, 32, 32));
+                        break;
                     case "2":
                         add_obstacle(new Board(j * 32, i * 32, 32, 32));
+                        break;
                     case "3":
                         add_obstacle(new Needle(j * 32, i * 32, 32, 32));
+                        break;
                     default:
                         break;
                 }
             }
         }
-        // print_stage_object_list(new int[]{0, 10000}, new int[]{0, 10000});
-        System.out.println("set!");
+        // print_obstacle_list(new int[]{0, 10000}, new int[]{0, 10000});
+        // System.out.println("set!");
     }
     // ステージオブジェクトを追加する関数ここまで
 
@@ -121,7 +124,7 @@ class ObstacleList {
         return start;
     }
     public ArrayList<Obstacle> get_collision_list(int range_x[], int range_y[]) {
-        // System.out.println(String.format("x: %d~%d, y: %d~%d", range_x[0],
+        // System.out.println(String.format("x: %d~%d, y: %d~%d", range_x[0], range_x[1], range_y[0], range_y[1]));
         // range_x[1], range_y[0], range_y[1]));
         ArrayList<Obstacle> result = new ArrayList<Obstacle>();
         for (Obstacle obstacle : this.obstacle_list) {
@@ -138,8 +141,16 @@ class ObstacleList {
                 if (range_x[0] <= obj.x && obj.x <= range_x[1]) {
                     result.add(obj);
                 }
+            } else {
+                break;
             }
         }
+        // System.out.println("--------loading_collision_obstacles--------");
+        // int i = 0;
+        // for (Obstacle obs : result) {
+        //     System.out.println(String.format("%d: (%d, %d)", i, obs.x, obs.y));
+        // }
+        // System.out.println("-------------------------------------------");
         return result;
     }
     // 衝突オブジェクトの読み込み関数ここまで

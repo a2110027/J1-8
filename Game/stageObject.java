@@ -13,7 +13,6 @@
 // どんな範囲にあっても必ず読み込みしたいときにはset_collision_load_flag(true)として読み込ませるようにする
 
 
-import java.util.ArrayList;
 import java.util.Observable;
 
 import javax.swing.JLabel;
@@ -31,8 +30,6 @@ class StageObject extends Observable {
     protected int width, height;
     // 物体インスタンスを配列に入れ当たり判定につかう
     protected ObstacleList obstacle_list;
-    // 衝突判定の読み込み範囲
-    int range_x[], range_y[];
     // 衝突判定の読み込みを必須にするかどうか(読み込み範囲外でも必ず読み込むかどうかのフラグ)
     boolean collision_load_required;
     // コンストラクタ
@@ -43,9 +40,6 @@ class StageObject extends Observable {
         this.height = height;
         this.obstacle_list = null;
         this.collision_load_required = false;
-        // 衝突判定の読み込み限界は当たり判定の2倍程
-        this.range_x = new int[]{this.x-width, this.x+width*2};
-        this.range_y = new int[]{this.y-height, this.y+height*2};
     }
     // 初期設定ここまで
 
