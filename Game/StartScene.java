@@ -50,16 +50,4 @@ public class StartScene extends JPanel implements ActionListener {
 
     ms.ChangePanel(cmd);
   }
-
-  /**
-   * 背景画像を出力
-   * 
-   * @return startsky_lbl 空(仮)の画像
-   * @author 藤
-   */
-  public JLabel get_background() {
-    start_lbl.setBounds(0, 0, WIDTH, HEIGHT);
-    return start_lbl;
-  }
-
 }
