@@ -62,7 +62,7 @@ public class GameScene extends JPanel implements ActionListener{
 			@Override
 			public void run() {
         repaint();
-        // プレイヤーのx座標が100になった時にエンドシーンに切り替わる。描画間隔的に、ゆっくり100にならないと起動しない。
+        // プレイヤーのx座標が最後のパネルに行った時にエンドシーンに切り替わる。
         if(player.get_x() >= 3136){
           end();
         }
