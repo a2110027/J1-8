@@ -43,11 +43,13 @@ public class PausePop extends JPanel implements ActionListener{
         this.setVisible(false);
         MasterScene ms = MasterScene.master;
         Player player = Player.player;
+        GameScene gs = GameScene.gs;
 
         player.set(50, 350); //player位置初期化
         player.speed.set_a(0, 0); //速度初期化(他の関数?)
         player.speed.set_v(0, 0);
         player.timer.stop(); 
+        gs.score = 0; gs.time = 0; //初期化
 
         ms.ChangePanel("StartScene");
         this.setVisible(false);
