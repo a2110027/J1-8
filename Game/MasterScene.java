@@ -13,8 +13,13 @@ public class MasterScene extends JFrame{
   static MasterScene master = new MasterScene();
   Container contentPane = getContentPane();
   JPanel cardpanel;
+  KeyController kc = new KeyController();
   CardLayout layout;
   GameScene game; //これだけここで
+
+  KeyController kyecont; //今現在設定中のkey操作を表現
+  //以下、使用しうるkey操作をすべてインスタンス化する
+  KeyController GSkey = new KeyController(); //GameSceneで使用
 
   // 画面サイズ
   final static int WIDTH = 974;
@@ -42,11 +47,12 @@ public class MasterScene extends JFrame{
     StartScene start = new StartScene();
     new GameScene();
     game = GameScene.gs;
+    EndScene end = new EndScene();
     
 
     cardpanel.add(start, "StartScene");
     cardpanel.add(game, "GameScene");
-    
+    cardpanel.add(end, "EndScene");
     contentPane.add(cardpanel);
 
   }
@@ -54,10 +60,14 @@ public class MasterScene extends JFrame{
   public void ChangePanel(String s){
     layout.show(cardpanel, s);
     System.out.println(s + "Yes!");
-
     if(s == "GameScene"){
-      addKeyListener(new KeyController());
+      kyecont = GSkey;
+      addKeyListener(kyecont); //keyを更新
       game.gamestart();
+    }else if(s == "EndScene"){
+      removeKeyListener(kyecont);
+    }else if(s == "StartScene"){
+      removeKeyListener(kyecont);
     }
   }
 
