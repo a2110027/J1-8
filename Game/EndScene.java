@@ -9,10 +9,14 @@ public class EndScene extends JPanel implements ActionListener {
   MasterScene ms;
   Player player = Player.get_instance();
   GameScene gm = GameScene.get_instance();
+  Score sc = Score.get_instance();
 
   // 画面サイズ
   final static int WIDTH = 960;
   final static int HEIGHT = 480;
+
+  int count = 0;
+  int score = count *1000;
 
   public EndScene() {
     setSize(WIDTH, HEIGHT);
@@ -31,6 +35,10 @@ public class EndScene extends JPanel implements ActionListener {
     add(end_btn);
   }
 
+  public void set_end_scene(){
+    count = sc.get_count();
+    score = count * 1000;
+  }
 
 
   public void actionPerformed(ActionEvent e) {
@@ -50,9 +58,12 @@ public class EndScene extends JPanel implements ActionListener {
       ms.ChangePanel("GameScene");
       this.setVisible(false);
     }
-
-    ms = MasterScene.get_instance();
-
-    ms.ChangePanel(cmd);
   }
+  public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		Font font1 = new Font("ＭＳ Ｐゴシック",Font.PLAIN,30);
+		g.setFont(font1);
+    set_end_scene();
+		g.drawString("Your Score Is "+score, 350, 150);
+	}
 }

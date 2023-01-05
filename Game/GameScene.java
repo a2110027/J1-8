@@ -20,7 +20,7 @@ public class GameScene extends JPanel implements ActionListener{
   Stage st = new Stage();
   BackGround bg = new BackGround();
   Timer tm;
-  
+  Score sc = Score.get_instance();
   JButton backss, pauseb;
 
   /**
@@ -46,7 +46,6 @@ public class GameScene extends JPanel implements ActionListener{
 
     // 各HumanにstageObjectListを渡す
     player.set_obstacle_list(st.get_obstacle_list());
-
   }
 
   public void gamestart(){
@@ -81,8 +80,8 @@ public class GameScene extends JPanel implements ActionListener{
     MasterScene ms = MasterScene.master;
     ms.ChangePanel("EndScene");
     tm.cancel(); //描写停止
+    player.set(32,100);
     player.timer.stop(); //位置更新停止
-
   }
 
 
@@ -110,6 +109,7 @@ public class GameScene extends JPanel implements ActionListener{
     bg.draw(g, offset);
     st.draw(g, offset);
     player.draw(g, offset);
+    sc.draw(g);
   }
 
   public void actionPerformed(ActionEvent e) { 
@@ -128,7 +128,8 @@ public class GameScene extends JPanel implements ActionListener{
     }else if(cmd == "Pause"){
       tm.cancel(); //描写停止
       player.timer.stop(); //位置更新停止
-
+      // スコア停止
+      sc.stop();
       PausePop pp = new PausePop();
       gs.add(pp);
       for(Component c : gs.getComponents()){ //gs上のすべてのComponentを無効化

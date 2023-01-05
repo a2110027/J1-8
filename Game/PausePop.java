@@ -5,7 +5,7 @@ import java.awt.event.*;
 
 public class PausePop extends JPanel implements ActionListener{
     private JButton exitb, contib, setb;
-
+    Score sc = Score.get_instance();
     int initx = 1014*30/100, inity = 537*30/100, initw = 1014*40/100, inith = 537*40/100; //全体sizeの割合にするよう後で改良
 
     public PausePop(){
@@ -43,6 +43,7 @@ public class PausePop extends JPanel implements ActionListener{
         this.setVisible(false);
         MasterScene ms = MasterScene.master;
         Player player = Player.player;
+        sc.stop();
 
         player.set(50, 350); //player位置初期化
         player.speed.set_a(0, 0); //速度初期化(他の関数?)
@@ -51,13 +52,14 @@ public class PausePop extends JPanel implements ActionListener{
 
         ms.ChangePanel("StartScene");
         this.setVisible(false);
-       }else if(b == "continue"){
+        }else if(b == "continue"){
         this.setVisible(false);
         GameScene gs = GameScene.gs;
         gs.gamestart();
+        sc.restart();
        }else if(b == "setting"){ //音量など新たにpopupmenuを出すとか。
 
-       }
+        }
 
     }
 }

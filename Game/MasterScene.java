@@ -16,6 +16,7 @@ public class MasterScene extends JFrame{
   KeyController kc = new KeyController();
   CardLayout layout;
   GameScene game; //これだけここで
+  Score sc = Score.get_instance();
 
   KeyController kyecont; //今現在設定中のkey操作を表現
   //以下、使用しうるkey操作をすべてインスタンス化する
@@ -48,7 +49,6 @@ public class MasterScene extends JFrame{
     new GameScene();
     game = GameScene.gs;
     EndScene end = new EndScene();
-    
 
     cardpanel.add(start, "StartScene");
     cardpanel.add(game, "GameScene");
@@ -64,8 +64,10 @@ public class MasterScene extends JFrame{
       kyecont = GSkey;
       addKeyListener(kyecont); //keyを更新
       game.gamestart();
+      sc.start();
     }else if(s == "EndScene"){
       removeKeyListener(kyecont);
+      sc.end();
     }else if(s == "StartScene"){
       removeKeyListener(kyecont);
     }
