@@ -35,6 +35,9 @@ public class EndScene extends JPanel implements ActionListener {
     add(end_btn);
   }
 
+  /**
+   * カウントダウンタイマーの値を取得し、スコアの計算をする。
+   */
   public void set_end_scene(){
     count = sc.get_count();
     score = count * 1000;
@@ -59,6 +62,9 @@ public class EndScene extends JPanel implements ActionListener {
       this.setVisible(false);
     }
   }
+  /** 
+   * スコアを表示する。
+   */
   public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Font font1 = new Font("ＭＳ Ｐゴシック",Font.PLAIN,30);
