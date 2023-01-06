@@ -61,13 +61,14 @@ public class MasterScene extends JFrame{
     layout.show(cardpanel, s);
     System.out.println(s + "Yes!");
     if(s == "GameScene"){
+      removeKeyListener(kyecont);
       kyecont = GSkey;
       addKeyListener(kyecont); //keyを更新
       game.gamestart();
     }else if(s == "EndScene"){
-      removeKeyListener(kyecont);
+      removeKeyListener(kc);
     }else if(s == "StartScene"){
-      removeKeyListener(kyecont);
+      removeKeyListener(kc);
     }
   }
 
