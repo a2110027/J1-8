@@ -14,6 +14,7 @@ public class Human extends StageObject implements ActionListener {
     public javax.swing.Timer timer;
     private double TIMER_DERAY;
     private boolean non_move_flag;
+    private boolean death_flag;
 
     public Human(int x, int y, int width, int height, double init_vx, double init_vy, double max_vx, double max_vy, double default_ax, double default_ay) {
         super(x, y, width, height);
@@ -25,6 +26,7 @@ public class Human extends StageObject implements ActionListener {
         this.TIMER_DERAY = 0.03;
         this.timer = new javax.swing.Timer((int)(TIMER_DERAY * 1000), this);
         //this.timer.start(); 12/23変更点、注意(by Fuki)
+        this.death_flag = false;
     }
 
     // 時間更新関数ここから
@@ -71,6 +73,9 @@ public class Human extends StageObject implements ActionListener {
                     speed.set_v(speed.get_vx(), 0);
                     speed.set_a(speed.get_ax(), 0);
                     this.y = collision_object.get_top_line()[0][1] - this.height;
+                    if (collision_object.get_id() == 3) {
+                        set_death_flag(true);
+                    }
                     // System.out.println("collision: bottom(" + collision_object.get_left_line()[0][0] + ", " + collision_object.get_left_line()[0][1] +")");
                     break;
                 case "left":
@@ -96,6 +101,15 @@ public class Human extends StageObject implements ActionListener {
         this.load_range_x[1] = this.x + width*2;
         this.load_range_y[0] = this.y - height;
         this.load_range_y[1] = this.y + height*2;
+    }
+    public void set_death_flag(boolean death_flag) {
+        if (this.death_flag == death_flag) {
+            System.out.println("Human.java>HumanClass>set_death_flag: セットしようとしている死亡フラグは既存の値と同じです");
+        } else {
+            this.death_flag = death_flag;
+            setChanged();
+            notifyObservers();
+        }
     }
     // セット関数ここまで
 
