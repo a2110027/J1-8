@@ -135,11 +135,11 @@ public class KeyController implements KeyListener, ActionListener {
             //System.out.println("LEFT");
         }
         if(esc_frag == true){
-        ms.end();
+            ms.end();
         }
         //動かないときの判定
         if(left_frag == false && right_frag == false){
-        pl.set_non_move_flag(true);
+            pl.set_non_move_flag(true);
         }
         /*if(right_frag == true && left_frag == true){
         pl.set_non_move_flag(true);
