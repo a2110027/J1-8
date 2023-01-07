@@ -107,27 +107,32 @@ public class KeyController implements KeyListener, ActionListener {
     //動くときの判定
     public void Hantei(){
         if(up_frag == true){
-        pl.jump();
-        //System.out.println("Jump");
+            pl.jump();
+            //System.out.println("Jump");
         }
         if(down_frag == true){
-        pl.move_bottom();
+            pl.run_count_increment();
+            pl.move_bottom();
         }
         if(right_frag == true){
-        if(left_frag==false){
-        pl.move_right();}
+            if(left_frag==false){
+                pl.run_count_increment();
+                pl.move_right();
+            }
         //System.out.println("RIGHT");
+            if(left_frag == true){
+                pl.run_count_increment();
+                pl.set_non_move_flag(true);
+            }
+        }
         if(left_frag == true){
-        pl.set_non_move_flag(true);
-        }
-        }
-        if(left_frag == true){
-        if(right_frag==false){
-        pl.move_left();}
-        if(right_frag==true){
-        pl.set_non_move_flag(true);
-        }
-        //System.out.println("LEFT");
+            if(right_frag==false){
+                pl.run_count_increment();
+                pl.move_left();}
+            if(right_frag==true){
+                pl.set_non_move_flag(true);
+            }
+            //System.out.println("LEFT");
         }
         if(esc_frag == true){
         ms.end();

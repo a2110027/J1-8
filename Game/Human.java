@@ -284,15 +284,59 @@ public class Human extends StageObject implements ActionListener {
 class Player extends Human {
 
     // インスタンス生成
-    Image img = Toolkit.getDefaultToolkit().getImage("./img/character/Player(仮).png");
-    ImageIcon icon1 = new ImageIcon("./img/character/Player(仮).png");
-    JLabel player_lbl = new JLabel(icon1);
+    Image[][] player_img = new Image[2][9];
+    JLabel player_lbl = new JLabel();
 
-
-    static Player player = new Player(32, 384, 32, 64);
+    // 走っている描画用カウント
+    int run_count = 0;
+    // 右向きか左向きか
+    int run_orientation = 0;
+    static Player player = new Player(32, 384, 64, 64);
 
     public Player(int x, int y, int width, int height) {
-        super(x, y, width, height, 100, 200, 200, 500, 300, 500);
+        super(x, y, width, height, 100, 200, 200, 500, 300, 500);    
+        get_player_image();
+    }
+
+    public void get_player_image(){
+        player_img[0][0] = Toolkit.getDefaultToolkit().getImage("./img/character/run00.png");
+        player_img[0][1] = Toolkit.getDefaultToolkit().getImage("./img/character/run01.png");
+        player_img[0][2] = Toolkit.getDefaultToolkit().getImage("./img/character/run02.png");
+        player_img[0][3] = Toolkit.getDefaultToolkit().getImage("./img/character/run03.png");
+        player_img[0][4] = Toolkit.getDefaultToolkit().getImage("./img/character/run04.png");
+        player_img[0][5] = Toolkit.getDefaultToolkit().getImage("./img/character/run05.png");
+        player_img[0][6] = Toolkit.getDefaultToolkit().getImage("./img/character/run06.png");
+        player_img[0][7] = Toolkit.getDefaultToolkit().getImage("./img/character/run07.png");
+        player_img[0][8] = Toolkit.getDefaultToolkit().getImage("./img/character/run08.png");
+        player_img[1][0] = Toolkit.getDefaultToolkit().getImage("./img/character/run10.png");
+        player_img[1][1] = Toolkit.getDefaultToolkit().getImage("./img/character/run11.png");
+        player_img[1][2] = Toolkit.getDefaultToolkit().getImage("./img/character/run12.png");
+        player_img[1][3] = Toolkit.getDefaultToolkit().getImage("./img/character/run13.png");
+        player_img[1][4] = Toolkit.getDefaultToolkit().getImage("./img/character/run14.png");
+        player_img[1][5] = Toolkit.getDefaultToolkit().getImage("./img/character/run15.png");
+        player_img[1][6] = Toolkit.getDefaultToolkit().getImage("./img/character/run16.png");
+        player_img[1][7] = Toolkit.getDefaultToolkit().getImage("./img/character/run17.png");
+        player_img[1][8] = Toolkit.getDefaultToolkit().getImage("./img/character/run18.png");
+
+        // 何故か下の部分が必要。出来ればなくしたい
+        ImageIcon icon00 = new ImageIcon("./img/character/run00.png");
+        ImageIcon icon01 = new ImageIcon("./img/character/run01.png");
+        ImageIcon icon02 = new ImageIcon("./img/character/run02.png");
+        ImageIcon icon03 = new ImageIcon("./img/character/run03.png");
+        ImageIcon icon04 = new ImageIcon("./img/character/run04.png");
+        ImageIcon icon05 = new ImageIcon("./img/character/run05.png");
+        ImageIcon icon06 = new ImageIcon("./img/character/run06.png");
+        ImageIcon icon07 = new ImageIcon("./img/character/run07.png");
+        ImageIcon icon08 = new ImageIcon("./img/character/run08.png");
+        ImageIcon icon10 = new ImageIcon("./img/character/run10.png");
+        ImageIcon icon11 = new ImageIcon("./img/character/run11.png");
+        ImageIcon icon12 = new ImageIcon("./img/character/run12.png");
+        ImageIcon icon13 = new ImageIcon("./img/character/run13.png");
+        ImageIcon icon14 = new ImageIcon("./img/character/run14.png");
+        ImageIcon icon15 = new ImageIcon("./img/character/run15.png");
+        ImageIcon icon16 = new ImageIcon("./img/character/run16.png");
+        ImageIcon icon17 = new ImageIcon("./img/character/run17.png");
+        ImageIcon icon18 = new ImageIcon("./img/character/run18.png");
     }
 
     /**
@@ -318,20 +362,37 @@ class Player extends Human {
         y = y_;
     }
 
+    /**
+     * 走る描画をするよう
+     * @param count run_countをいくつにするか設定
+     */
+    public void set_run_count(int count){
+        run_count = count;
+    }
+
+    /**
+     * run_countをインクリメントさせる
+     */
+    public void run_count_increment(){
+        if(run_count == 8){
+            set_run_count(0);
+        }else{
+            run_count++;
+        }
+    }
 
     /**
      * プレイヤー描画
      * @param g
      */
     public void draw(Graphics g, int offset){
-        g.drawImage(img, x-offset, y, player_lbl);
+        if(speed.get_vx() >= 0){
+            g.drawImage(player_img[0][run_count], x-offset, y, player_lbl);
+        }else{
+            g.drawImage(player_img[1][run_count], x-offset, y, player_lbl);
+        }
     }
 }
-
-
-
-
-
 
 class Enemy extends Human {
     public Enemy(int x, int y, int width, int height, ObstacleList obstacle_list) {

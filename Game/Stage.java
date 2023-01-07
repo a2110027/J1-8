@@ -20,9 +20,6 @@ import javax.swing.JPanel;
  */
 public class Stage extends  JPanel{
   // インスタンス生成
-  Image block = Toolkit.getDefaultToolkit().getImage("./img/object/GroundBlock.png");
-  Image board = Toolkit.getDefaultToolkit().getImage("./img/object/Board.png");
-  Image needle = Toolkit.getDefaultToolkit().getImage("./img/object/Needle.png");
   ObstacleList obstacle_list = new ObstacleList();
 
   // 1パネルのサイズ
@@ -76,13 +73,6 @@ public class Stage extends  JPanel{
     } catch (Exception e) {
       System.out.println(e.getMessage());
     }
-    // try {
-    //   stage_data = Files.readAllLines(Path.of("./stage/Stage.csv")).stream()
-    //   .map(line -> line.split(","))
-    //   .toArray(String[][]::new);
-    // } catch (Exception e) {
-    //   System.out.println(e.getMessage());
-    // }
   }
 
 
