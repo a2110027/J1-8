@@ -20,8 +20,13 @@ public class GameScene extends JPanel implements ActionListener{
   Stage st = new Stage();
   BackGround bg = new BackGround();
   Timer tm;
+  int time, score;
+  // 画面サイズ
+  final static int WIDTH = 960;
+  final static int HEIGHT = 480;
   
   JButton backss, pauseb;
+  JLabel scorep,timep, speedp;
 
   /**
    * コンストラクタ
@@ -30,9 +35,12 @@ public class GameScene extends JPanel implements ActionListener{
    */
   public GameScene() {
     tm = new Timer();
+    time = 0;
+    score = 0;
     setLayout(null);
 
-    backss = new JButton("Home");
+    //ボタン設定
+    backss = new JButton("Home"); 
     backss.setBounds(0,0,100,50);
     add(backss);
     backss.addActionListener(this);
@@ -43,6 +51,26 @@ public class GameScene extends JPanel implements ActionListener{
     add(pauseb);
     pauseb.addActionListener(this);
     pauseb.setActionCommand("Pause");
+
+    //パネル設定
+    scorep = new JLabel();
+    scorep.setForeground(Color.white);
+    scorep.setFont(new Font(Font.SANS_SERIF,Font.BOLD | Font.ITALIC,15));
+    scorep.setBounds(WIDTH - 120,0,120,20);
+
+    timep = new JLabel();
+    timep.setForeground(Color.white);
+    timep.setFont(new Font(Font.SANS_SERIF,Font.BOLD | Font.ITALIC,15));
+    timep.setBounds(WIDTH - 250,0,100,20);
+
+    speedp = new JLabel();
+    speedp.setForeground(Color.white); //speedによって色を変化させるとかどうでしょう
+    speedp.setFont(new Font(Font.SANS_SERIF,Font.BOLD | Font.ITALIC,15));
+    speedp.setBounds(WIDTH - 550,20,550,20);
+
+    add(scorep); 
+    add(timep);
+    add(speedp);
 
     // 各HumanにstageObjectListを渡す
     player.set_obstacle_list(st.get_obstacle_list());
@@ -66,8 +94,22 @@ public class GameScene extends JPanel implements ActionListener{
         if(player.get_x() >= 3136){
           end();
         }
+        //下なくてもいい
+        speedp.setText("Speed: " + String.format("(x, y) = (%d, %d), v = (%.1f, %.1f), a = (%.1f, %.1f)", player.x, player.y, player.speed.get_vx(), player.speed.get_vy(), player.speed.get_ax(), player.speed.get_ay()));
 			}
 		},  0, 100);
+
+    tm.scheduleAtFixedRate(new TimerTask() { //time関係のタスク、1秒ごとに実行
+			@Override
+			public void run() {
+        time++;
+
+        scorep.setText("Score: " + String.format("%06d", time * 2)); //score計算式は後で変更の必要あり
+        timep.setText("Time: " + String.format("%05d", time));
+        
+        repaint();
+      }
+		},  0, 1000);
 
     System.out.println("gamestart!\n"); //実行確認用
   }
@@ -123,8 +165,12 @@ public class GameScene extends JPanel implements ActionListener{
 
       player.speed.set_a(0, 0); //速度初期化(他の関数?)
       player.speed.set_v(0, 0);
+
+      time = 0; score = 0;
+      tm.cancel();
       
       player.timer.stop(); 
+
     }else if(cmd == "Pause"){
       tm.cancel(); //描写停止
       player.timer.stop(); //位置更新停止
