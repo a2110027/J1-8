@@ -1,6 +1,3 @@
-// ObstacleIDは以下の通り
-// Block=1, Board=2, Needle=3
-
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.util.ArrayList;
@@ -8,19 +5,14 @@ import java.util.ArrayList;
 // 障害物の親クラスここから
 public class Obstacle extends StageObject {
     Image img;
-    private int id;
 
-    public Obstacle(int id, int x, int y, int width, int height, Image image) {
+    public Obstacle(int x, int y, int width, int height, Image image) {
         super(x, y, width, height);
         img = image;
-        this.id = id;
     }
 
     public Image get_image() {
         return this.img;
-    }
-    public int get_id() {
-        return id;
     }
 }
 // 障害物の親クラスここまで
@@ -181,7 +173,7 @@ class ObstacleList {
 // 通常ブロックここから
 class Block extends Obstacle {
     public Block(int x, int y, int width, int height) {
-        super(1, x, y, width, height, Toolkit.getDefaultToolkit().getImage("./img/object/GroundBlock.png"));
+        super(x, y, width, height, Toolkit.getDefaultToolkit().getImage("./img/object/GroundBlock.png"));
     }
 }
 // 通常ブロックここまで
@@ -194,7 +186,7 @@ class Block extends Obstacle {
 // 板ブロックここから
 class Board extends Obstacle {
     public Board(int x, int y, int width, int height) {
-        super(2, x, y, width, height, Toolkit.getDefaultToolkit().getImage("./img/object/Board.png"));
+        super(x, y, width, height, Toolkit.getDefaultToolkit().getImage("./img/object/Board.png"));
     }
 }
 // 板ブロックここまで
@@ -207,7 +199,7 @@ class Board extends Obstacle {
 // 棘ブロックここから
 class Needle extends Obstacle {
     public Needle(int x, int y, int width, int height) {
-        super(3, x, y, width, height, Toolkit.getDefaultToolkit().getImage("./img/object/Needle.png"));
+        super(x, y, width, height, Toolkit.getDefaultToolkit().getImage("./img/object/Needle.png"));
     }
 }
 // 棘ブロックここまで
