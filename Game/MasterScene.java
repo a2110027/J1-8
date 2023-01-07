@@ -56,13 +56,17 @@ public class MasterScene extends JFrame{
     contentPane.add(cardpanel);
 
   }
-
+  /** 
+   * パネルを変える
+   * @param s
+   */
   public void ChangePanel(String s){
     layout.show(cardpanel, s);
     System.out.println(s + "Yes!");
     if(s == "GameScene"){
       kyecont = GSkey;
       addKeyListener(kyecont); //keyを更新
+      game.reset_score();
       game.gamestart();
     }else if(s == "EndScene"){
       removeKeyListener(kyecont);
@@ -71,7 +75,9 @@ public class MasterScene extends JFrame{
     }
   }
 
-
+  /**
+   * ゲーム終了
+   */
   public void end(){
     setVisible(false); 
     dispose(); 

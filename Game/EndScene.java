@@ -47,8 +47,24 @@ public class EndScene extends JPanel implements ActionListener {
       player.speed.set_a(0, 0); //速度初期化(他の関数?)
       player.speed.set_v(0, 0);
       player.timer.stop(); 
+      player.set_death_flag(false);
       ms.ChangePanel("GameScene");
       this.setVisible(false);
     }
   }
+  
+  /** 
+   * 文字列を表示する。
+   */
+  public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		Font font1 = new Font("ＭＳＰゴシック",Font.PLAIN,30);
+		g.setFont(font1);
+    if(player.get_death()){
+      g.drawString("You Died!",400, 150);
+    }else{
+      g.drawString("Game Clear!!",400, 150);
+    }
+    g.drawString("Your Score is "+ gm.get_score(), 400, 400);
+	}
 }

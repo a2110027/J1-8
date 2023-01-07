@@ -35,7 +35,7 @@ public class GameScene extends JPanel implements ActionListener{
    */
   public GameScene() {
     tm = new Timer();
-    time = 0;
+    time = 300;
     score = 0;
     setLayout(null);
 
@@ -91,10 +91,14 @@ public class GameScene extends JPanel implements ActionListener{
 			public void run() {
         repaint();
         // プレイヤーのx座標が最後のパネルに行った時にエンドシーンに切り替わる。
-        if(player.get_x() >= 3104 || player.get_death() || player.get_y()> 480){
+        // ゲームクリア
+        if(player.get_x() >= 3104){
+          gs.score_plus(30000);
           end();
-          player.set(32, 384);
-          player.set_death_flag(false);
+        }
+        if(player.get_death() || player.get_y()> 480){
+          player.set_death_flag(true);
+          end();
         }
         //下なくてもいい
         speedp.setText("Speed: " + String.format("(x, y) = (%d, %d), v = (%.1f, %.1f), a = (%.1f, %.1f)", player.x, player.y, player.speed.get_vx(), player.speed.get_vy(), player.speed.get_ax(), player.speed.get_ay()));
@@ -104,11 +108,14 @@ public class GameScene extends JPanel implements ActionListener{
     tm.scheduleAtFixedRate(new TimerTask() { //time関係のタスク、1秒ごとに実行
 			@Override
 			public void run() {
-        time++;
-
-        scorep.setText("Score: " + String.format("%06d", time * 2)); //score計算式は後で変更の必要あり
+        if(time == 0){
+          player.set_death_flag(true);
+          end();
+        }
+        time--;
+        score = (300-time)*100;
+        scorep.setText("Score: " + String.format("%06d", score)); //score計算式は後で変更の必要あり
         timep.setText("Time: " + String.format("%05d", time));
-        
         repaint();
       }
 		},  0, 1000);
@@ -129,6 +136,28 @@ public class GameScene extends JPanel implements ActionListener{
 
   }
 
+  /**
+   * スコア初期化。タイマー初期化
+   */
+  public void reset_score(){
+    time = 300;
+    score = 0;
+  }
+
+  /**
+   * スコアを取得
+   * @return score
+   */
+  public int get_score(){
+    return score;
+  }
+  /**
+   * クリア時等にスコアを加える用
+   * @param point 加えたいポイント
+   */
+  public void score_plus(int point){
+    score = score + point;
+  }
 
 
   /**
