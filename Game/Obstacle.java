@@ -209,5 +209,17 @@ class Needle extends Obstacle {
     public Needle(int x, int y, int width, int height) {
         super(3, x, y, width, height, Toolkit.getDefaultToolkit().getImage("./img/object/Needle.png"));
     }
+    public boolean is_hit(Human human) {
+        int tolerate_size = 5;  // 当たり判定がシビアだと難しすぎるため、左右5ずつ余裕を設ける
+        int human_left_line[][] = human.get_left_line();
+        int human_right_line[][] = human.get_right_line();
+        int obj_left_line[][] = this.get_left_line();
+        int obj_right_line[][] = this.get_right_line();
+        if (!(human_right_line[0][0]-tolerate_size<=obj_left_line[0][0] || obj_right_line[0][0]<=human_left_line[0][0]+tolerate_size)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
 // 棘ブロックここまで
