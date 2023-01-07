@@ -91,8 +91,10 @@ public class GameScene extends JPanel implements ActionListener{
 			public void run() {
         repaint();
         // プレイヤーのx座標が最後のパネルに行った時にエンドシーンに切り替わる。
-        if(player.get_x() >= 3136){
+        if(player.get_x() >= 3104 || player.get_death() || player.get_y()> 480){
           end();
+          player.set(32, 384);
+          player.set_death_flag(false);
         }
         //下なくてもいい
         speedp.setText("Speed: " + String.format("(x, y) = (%d, %d), v = (%.1f, %.1f), a = (%.1f, %.1f)", player.x, player.y, player.speed.get_vx(), player.speed.get_vy(), player.speed.get_ax(), player.speed.get_ay()));

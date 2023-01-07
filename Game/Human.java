@@ -122,6 +122,9 @@ public class Human extends StageObject implements ActionListener {
     public int get_y() {
         return this.y;
     }
+    public boolean get_death(){
+        return this.death_flag;
+    }
     // 取得関数群ここまで
 
 

@@ -50,9 +50,5 @@ public class EndScene extends JPanel implements ActionListener {
       ms.ChangePanel("GameScene");
       this.setVisible(false);
     }
-
-    ms = MasterScene.get_instance();
-
-    ms.ChangePanel(cmd);
   }
 }
