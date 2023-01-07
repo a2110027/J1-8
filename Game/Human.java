@@ -14,6 +14,7 @@ public class Human extends StageObject implements ActionListener {
     public javax.swing.Timer timer;
     private double TIMER_DERAY;
     private boolean non_move_flag;
+    private boolean death_flag;
 
     public Human(int x, int y, int width, int height, double init_vx, double init_vy, double max_vx, double max_vy, double default_ax, double default_ay) {
         super(x, y, width, height);
@@ -25,6 +26,7 @@ public class Human extends StageObject implements ActionListener {
         this.TIMER_DERAY = 0.03;
         this.timer = new javax.swing.Timer((int)(TIMER_DERAY * 1000), this);
         //this.timer.start(); 12/23変更点、注意(by Fuki)
+        this.death_flag = false;
     }
 
     // 時間更新関数ここから
@@ -36,6 +38,7 @@ public class Human extends StageObject implements ActionListener {
         int new_y = (int) (y + speed.get_vy() * TIMER_DERAY + 0.5 * speed.get_ay() * TIMER_DERAY * TIMER_DERAY);
         double new_v_x = speed.get_vx() + speed.get_ax() * TIMER_DERAY;
         double new_v_y = speed.get_vy() + speed.get_ay() * TIMER_DERAY;
+        this.speed.accelerate_y();
         this.speed.set_v(new_v_x, new_v_y);
         this.set_position(new_x, new_y);
     }
@@ -55,28 +58,31 @@ public class Human extends StageObject implements ActionListener {
         for (String collision_str : collision_strings) {
             switch (collision_str) {
                 case "top":
-                        speed.set_v(speed.get_vx(), 0);
-                        speed.set_a(speed.get_ax(), speed.get_ay());
-                        this.y = collision_object.get_bottom_line()[0][1];
-                        System.out.println("collision: top(" + collision_object.get_left_line()[0][0] + ", " + collision_object.get_left_line()[0][1] +")");
+                    speed.set_v(speed.get_vx(), 0);
+                    speed.set_a(speed.get_ax(), speed.get_ay());
+                    this.y = collision_object.get_bottom_line()[0][1];
+                    // System.out.println("collision: top(" + collision_object.get_left_line()[0][0] + ", " + collision_object.get_left_line()[0][1] +")");
                     break;
                 case "right":
                     speed.set_v(0, speed.get_vy());
                     speed.set_a(0, speed.get_ay());
                     this.x = collision_object.get_left_line()[0][0] - this.width;
-                    System.out.println("collision: right(" + collision_object.get_left_line()[0][0] + ", " + collision_object.get_left_line()[0][1] +")");
+                    // System.out.println("collision: right(" + collision_object.get_left_line()[0][0] + ", " + collision_object.get_left_line()[0][1] +")");
                     break;
                 case "bottom":
                     speed.set_v(speed.get_vx(), 0);
                     speed.set_a(speed.get_ax(), 0);
                     this.y = collision_object.get_top_line()[0][1] - this.height;
-                    System.out.println("collision: bottom(" + collision_object.get_left_line()[0][0] + ", " + collision_object.get_left_line()[0][1] +")");
+                    if (collision_object.get_id() == 3) {
+                        set_death_flag(true);
+                    }
+                    // System.out.println("collision: bottom(" + collision_object.get_left_line()[0][0] + ", " + collision_object.get_left_line()[0][1] +")");
                     break;
                 case "left":
                     speed.set_v(0, speed.get_vy());
                     speed.set_a(0, speed.get_ay());
                     this.x = collision_object.get_right_line()[0][0];
-                    System.out.println("collision: left(" + collision_object.get_left_line()[0][0] + ", " + collision_object.get_left_line()[0][1] +")");
+                    // System.out.println("collision: left(" + collision_object.get_left_line()[0][0] + ", " + collision_object.get_left_line()[0][1] +")");
                     break;
                 default:
                     break;
@@ -95,6 +101,15 @@ public class Human extends StageObject implements ActionListener {
         this.load_range_x[1] = this.x + width*2;
         this.load_range_y[0] = this.y - height;
         this.load_range_y[1] = this.y + height*2;
+    }
+    public void set_death_flag(boolean death_flag) {
+        if (this.death_flag == death_flag) {
+            System.out.println("Human.java>HumanClass>set_death_flag: セットしようとしている死亡フラグは既存の値と同じです");
+        } else {
+            this.death_flag = death_flag;
+            setChanged();
+            notifyObservers();
+        }
     }
     // セット関数ここまで
 
@@ -238,6 +253,7 @@ public class Human extends StageObject implements ActionListener {
 
     public void move_bottom() {
         this.set_non_move_flag(false);
+        this.speed.accelerate_y();
     }
 
     public void non_move() {
