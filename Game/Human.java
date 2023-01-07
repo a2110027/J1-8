@@ -1,5 +1,4 @@
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 
@@ -10,7 +9,6 @@ import java.awt.Toolkit;
 public class Human extends StageObject implements ActionListener {
     int load_range_x[], load_range_y[];
     protected Speed speed;
-    //private javax.swing.Timer timer; 12/23変更点、注意(by Fuki)
     public javax.swing.Timer timer;
     private double TIMER_DERAY;
     private boolean non_move_flag;
@@ -25,7 +23,6 @@ public class Human extends StageObject implements ActionListener {
         this.speed = new Speed(default_ax, default_ay, init_vx, init_vy, max_vx, max_vy);
         this.TIMER_DERAY = 0.03;
         this.timer = new javax.swing.Timer((int)(TIMER_DERAY * 1000), this);
-        //this.timer.start(); 12/23変更点、注意(by Fuki)
         this.death_flag = false;
     }
 
