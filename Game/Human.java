@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.security.Key;
 import java.util.*;
 
 import java.awt.Graphics;
@@ -317,6 +318,16 @@ class Player extends Human {
         x = x_;
         y = y_;
     }
+
+    /**
+   * playerの位置と速度初期化。(今のとこtimerは別)
+   * @author ふき
+   */
+    public void reset(){
+        player.set(32, 384); //player位置初期化
+        player.speed.set_a(0, 0); 
+        player.speed.set_v(0, 0);
+  }
 
 
     /**

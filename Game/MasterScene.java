@@ -13,7 +13,6 @@ public class MasterScene extends JFrame{
   static MasterScene master = new MasterScene();
   Container contentPane = getContentPane();
   JPanel cardpanel;
-  KeyController kc = new KeyController();
   CardLayout layout;
   GameScene game; //これだけここで
 

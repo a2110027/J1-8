@@ -47,7 +47,7 @@ class ExitPop extends JPanel implements ActionListener{
         Player player = Player.player;
         GameScene gs = GameScene.gs;
 
-        gs.reset_player();
+        player.reset();
         player.timer.stop(); 
         gs.reset_score(); //スコア初期化
 

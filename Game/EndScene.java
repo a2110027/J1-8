@@ -43,9 +43,7 @@ public class EndScene extends JPanel implements ActionListener {
       MasterScene ms = MasterScene.master;
       Player player = Player.player;
 
-      player.set(50, 384); //player位置初期化
-      player.speed.set_a(0, 0); //速度初期化(他の関数?)
-      player.speed.set_v(0, 0);
+      player.reset();
       player.timer.stop(); 
       ms.ChangePanel("GameScene");
       this.setVisible(false);
