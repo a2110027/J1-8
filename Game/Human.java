@@ -59,32 +59,91 @@ public class Human extends StageObject implements ActionListener {
         for (String collision_str : collision_strings) {
             switch (collision_str) {
                 case "top":
-                    speed.set_v(speed.get_vx(), 0);
-                    speed.set_a(speed.get_ax(), speed.get_ay());
-                    this.y = collision_object.get_bottom_line()[0][1] - this.offset_y;
+                    // 各ブロックごとの処理
+                    switch (collision_object.get_id()) {
+                        case 1: // Block
+                            speed.set_v(speed.get_vx(), 0);
+                            speed.set_a(speed.get_ax(), speed.get_ay());
+                            this.y = collision_object.get_bottom_line()[0][1] - this.offset_y;
+                            break;
+                        case 2: // Board
+                            break;
+                        case 3: // Needle
+                            speed.set_v(speed.get_vx(), 0);
+                            speed.set_a(speed.get_ax(), speed.get_ay());
+                            this.y = collision_object.get_bottom_line()[0][1] - this.offset_y;
+                            break;
+                        default:
+                            System.out.println("Human.java>HumanClass>set_position: 衝突したブロックIDに対する処理が記述されていません");
+                            break;
+                    }
                     // System.out.println("collision: top(" + collision_object.get_left_line()[0][0] + ", " + collision_object.get_left_line()[0][1] +")");
                     break;
                 case "right":
-                    speed.set_v(0, speed.get_vy());
-                    speed.set_a(0, speed.get_ay());
-                    this.x = collision_object.get_left_line()[0][0] - this.width - this.offset_x;
+                    // 各ブロックごとの処理
+                    switch (collision_object.get_id()) {
+                        case 1: // Block
+                            speed.set_v(0, speed.get_vy());
+                            speed.set_a(0, speed.get_ay());
+                            this.x = collision_object.get_left_line()[0][0] - this.width - this.offset_x;
+                            break;
+                        case 2: // Board
+                            break;
+                        case 3: // Needle
+                            speed.set_v(0, speed.get_vy());
+                            speed.set_a(0, speed.get_ay());
+                            this.x = collision_object.get_left_line()[0][0] - this.width - this.offset_x;
+                            break;
+                        default:
+                            System.out.println("Human.java>HumanClass>set_position: 衝突したブロックIDに対する処理が記述されていません");
+                            break;
+
+                    }
                     // System.out.println("collision: right(" + collision_object.get_left_line()[0][0] + ", " + collision_object.get_left_line()[0][1] +")");
                     break;
                 case "bottom":
-                    speed.set_v(speed.get_vx(), 0);
-                    speed.set_a(speed.get_ax(), 0);
-                    this.y = collision_object.get_top_line()[0][1] - this.height - this.offset_y;
-                    if (collision_object.get_id() == 3) {
-                        if (((Needle)collision_object).is_hit(this)) {
-                            set_death_flag(true);
-                        }
+                    // 各ブロックごとの処理
+                    switch (collision_object.get_id()) {
+                        case 1: // Block
+                            speed.set_v(speed.get_vx(), 0);
+                            speed.set_a(speed.get_ax(), 0);
+                            this.y = collision_object.get_top_line()[0][1] - this.height - this.offset_y;
+                            break;
+                        case 2: // Board
+                            speed.set_v(speed.get_vx(), 0);
+                            speed.set_a(speed.get_ax(), 0);
+                            this.y = collision_object.get_top_line()[0][1] - this.height - this.offset_y;
+                            break;
+                        case 3: // Needle
+                            if (((Needle)collision_object).is_hit(this)) {
+                                set_death_flag(true);
+                            }
+                            break;
+                        default:
+                            System.out.println("Human.java>HumanClass>set_position: 衝突したブロックIDに対する処理が記述されていません");
+                            break;
                     }
                     // System.out.println("collision: bottom(" + collision_object.get_left_line()[0][0] + ", " + collision_object.get_left_line()[0][1] +")");
                     break;
                 case "left":
-                    speed.set_v(0, speed.get_vy());
-                    speed.set_a(0, speed.get_ay());
-                    this.x = collision_object.get_right_line()[0][0] - this.offset_x;
+                    // 各ブロックごとの処理
+                    switch (collision_object.get_id()) {
+                        case 1: // Block
+                            speed.set_v(0, speed.get_vy());
+                            speed.set_a(0, speed.get_ay());
+                            this.x = collision_object.get_right_line()[0][0] - this.offset_x;
+                            break;
+                        case 2: // Board
+                            break;
+                        case 3: // Needle
+                            speed.set_v(0, speed.get_vy());
+                            speed.set_a(0, speed.get_ay());
+                            this.x = collision_object.get_right_line()[0][0] - this.offset_x;
+                            break;
+                        default:
+                            System.out.println("Human.java>HumanClass>set_position: 衝突したブロックIDに対する処理が記述されていません");
+                            break;
+                    }
                     // System.out.println("collision: left(" + collision_object.get_left_line()[0][0] + ", " + collision_object.get_left_line()[0][1] +")");
                     break;
                 default:
