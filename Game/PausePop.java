@@ -47,11 +47,9 @@ class ExitPop extends JPanel implements ActionListener{
         Player player = Player.player;
         GameScene gs = GameScene.gs;
 
-        player.set(50, 350); //player位置初期化
-        player.speed.set_a(0, 0); //速度初期化(他の関数?)
-        player.speed.set_v(0, 0);
+        gs.reset_player();
         player.timer.stop(); 
-        gs.score = 0; gs.time = 0; //初期化
+        gs.reset_score(); //スコア初期化
 
         ms.ChangePanel("StartScene");
        }else if(b == "continue"){

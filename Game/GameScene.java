@@ -127,6 +127,39 @@ public class GameScene extends JPanel implements ActionListener{
 
   }
 
+  /**
+   * playerの位置と速度初期化。(今のとこtimerは別)
+   */
+  public void reset_player(){
+    player.set(32, 384); //player位置初期化
+
+    player.speed.set_a(0, 0); //速度初期化(他の関数?)
+    player.speed.set_v(0, 0);
+  }
+
+  
+  /**
+   * スコア初期化。タイマー初期化
+   */
+  public void reset_score(){
+    time = 300;
+    score = 0;
+  }
+
+  /**
+   * スコアを取得
+   * @return score
+   */
+  public int get_score(){
+    return score;
+  }
+  /**
+   * クリア時等にスコアを加える用
+   * @param point 加えたいポイント
+   */
+  public void score_plus(int point){
+    score = score + point;
+  }
 
 
   /**
@@ -161,12 +194,8 @@ public class GameScene extends JPanel implements ActionListener{
     ms.ChangePanel(cmd);
 
     if(cmd == "StartScene"){
-      player.set(32, 384); //player位置初期化
-
-      player.speed.set_a(0, 0); //速度初期化(他の関数?)
-      player.speed.set_v(0, 0);
-
-      time = 0; score = 0;
+      reset_player();
+      reset_score();
       tm.cancel();
       
       player.timer.stop(); 
