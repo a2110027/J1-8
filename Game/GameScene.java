@@ -17,13 +17,16 @@ public class GameScene extends JPanel implements ActionListener{
   // インスタンス生成
   static GameScene gs = new GameScene(); //MaterSceneコンストラクタでのnew以降ならいつでもアクセス可能です
   Player player = Player.player;
-  Stage st = new Stage();
   BackGround bg = new BackGround();
+  BetweenScene bet = BetweenScene.get_instance();
   Timer tm;
+  Stage st = new Stage();
   int time, score;
   // 画面サイズ
   final static int WIDTH = 960;
   final static int HEIGHT = 480;
+
+  public int stage_number = 0;
   
   JButton backss, pauseb;
   JLabel scorep,timep, speedp;
@@ -34,6 +37,9 @@ public class GameScene extends JPanel implements ActionListener{
    * @author 綾部
    */
   public GameScene() {
+    
+    // 各HumanにstageObjectListを渡す
+
     tm = new Timer();
     time = 300;
     score = 0;
@@ -72,58 +78,11 @@ public class GameScene extends JPanel implements ActionListener{
     add(timep);
     add(speedp);
 
-    // 各HumanにstageObjectListを渡す
-    player.set_obstacle_list(st.get_obstacle_list());
+
 
   }
 
-  public void gamestart(){
-    for(Component c : gs.getComponents()){ //gs上のすべてのComponentを有効化(無効化することがあるので)
-      c.setEnabled(true);
-    }
-    
-    tm = new Timer();
-
-    player.timer.start();
-    //タイマー開始。再描画を行う。
-    tm.scheduleAtFixedRate(new TimerTask() {
-			@Override
-			public void run() {
-        repaint();
-        // プレイヤーのx座標が最後のパネルに行った時にエンドシーンに切り替わる。
-        // ゲームクリア
-        if(player.get_x() >= 3104){
-          gs.score_plus(30000);
-          end();
-        }
-        if(player.get_death() || player.get_y()> 480){
-          player.set_death_flag(true);
-          end();
-        }
-        //下なくてもいい
-        speedp.setText("Speed: " + String.format("(x, y) = (%d, %d), v = (%.1f, %.1f), a = (%.1f, %.1f)", player.x, player.y, player.speed.get_vx(), player.speed.get_vy(), player.speed.get_ax(), player.speed.get_ay()));
-			}
-		},  0, 100);
-
-    tm.scheduleAtFixedRate(new TimerTask() { //time関係のタスク、1秒ごとに実行
-			@Override
-			public void run() {
-        if(time == 0){
-          player.set_death_flag(true);
-          end();
-        }
-        time--;
-        score = (300-time)*100;
-        scorep.setText("Score: " + String.format("%06d", score)); //score計算式は後で変更の必要あり
-        timep.setText("Time: " + String.format("%05d", time));
-        repaint();
-      }
-		},  0, 1000);
-
-    System.out.println("gamestart!\n"); //実行確認用
-  }
-
-  
+  /*********************************************************************** */
   /**
    * 死亡またはクリアによるゲーム終了画面遷移用
    * @author 綾部
@@ -131,17 +90,40 @@ public class GameScene extends JPanel implements ActionListener{
   public void end(){
     MasterScene ms = MasterScene.master;
     ms.ChangePanel("EndScene");
+    st.set_stage_num(0);
     tm.cancel(); //描写停止
     player.timer.stop(); //位置更新停止
-
   }
 
   /**
-   * スコア初期化。タイマー初期化
+   * ステージクリア後、次のステージへ
+   */
+  public void next(){
+    MasterScene ms = MasterScene.master;
+    tm.cancel(); //描写停止
+    player.timer.stop(); //位置更新停止
+    if(st.last_stage()){
+      end();
+    }else{
+      bet.next_stage();
+      st.stage_num_plus();
+      st.production_stage();
+      player.set_obstacle_list(st.get_obstacle_list());
+      player.set(32, 384); //player位置初期化
+      player.speed.set_a(0, 0); //速度初期化(他の関数?)
+      player.speed.set_v(0, 0);
+      time = 300;
+      ms.ChangePanel("BetweenScene");
+    }
+  }
+
+  /**
+   * スコア初期化。タイマー初期化。ステージナンバー初期化。
    */
   public void reset_score(){
     time = 300;
     score = 0;
+    st.set_stage_num(0);
   }
 
   /**
@@ -159,7 +141,6 @@ public class GameScene extends JPanel implements ActionListener{
     score = score + point;
   }
 
-
   /**
    * インスタンスを返す
    * 
@@ -170,7 +151,54 @@ public class GameScene extends JPanel implements ActionListener{
   }
 
 
-  /* ***************************************** */
+  /****************************************************************************** */
+  public void gamestart(){
+    st.production_stage();
+    player.set_obstacle_list(st.get_obstacle_list());
+    for(Component c : gs.getComponents()){ //gs上のすべてのComponentを有効化(無効化することがあるので)
+      c.setEnabled(true);
+    }
+
+    tm = new Timer();
+    player.timer.start();
+    //タイマー開始。再描画を行う。
+    tm.scheduleAtFixedRate(new TimerTask() {
+			@Override
+			public void run() {
+        repaint();
+        // ゲームクリア
+        if(player.get_x() >= 3104){
+          score_plus(30000);
+          next();
+        }
+        // ゲームオーバー
+        if(player.get_death() || player.get_y()> 480){
+          player.set_death_flag(true);
+          end();
+        }
+        //下なくてもいい
+        speedp.setText("Speed: " + String.format("(x, y) = (%d, %d), v = (%.1f, %.1f), a = (%.1f, %.1f)", player.x, player.y, player.speed.get_vx(), player.speed.get_vy(), player.speed.get_ax(), player.speed.get_ay()));
+			}
+		},  0, 100);
+
+    tm.scheduleAtFixedRate(new TimerTask() { //time関係のタスク、1秒ごとに実行
+			@Override
+			public void run() {
+        if(time == 0){
+          player.set_death_flag(true);
+        }
+        time--;
+        score = score + 100;
+        scorep.setText("Score: " + String.format("%06d", score)); //score計算式は後で変更の必要あり
+        timep.setText("Time: " + String.format("%05d", time));
+        repaint();
+      }
+		},  0, 1000);
+
+    System.out.println("gamestart!\n"); //実行確認用
+  }
+  /******************************************************************** */
+
   /**
    * 描画部分
    * @param offset ステージや背景(未実装)のスクロールをするための値
@@ -193,15 +221,11 @@ public class GameScene extends JPanel implements ActionListener{
 
     if(cmd == "StartScene"){
       player.set(32, 384); //player位置初期化
-
       player.speed.set_a(0, 0); //速度初期化(他の関数?)
       player.speed.set_v(0, 0);
-
-      time = 0; score = 0;
       tm.cancel();
-      
       player.timer.stop(); 
-
+      st.set_stage_num(0);
     }else if(cmd == "Pause"){
       tm.cancel(); //描写停止
       player.timer.stop(); //位置更新停止

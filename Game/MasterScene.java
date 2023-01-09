@@ -48,11 +48,13 @@ public class MasterScene extends JFrame{
     new GameScene();
     game = GameScene.gs;
     EndScene end = new EndScene();
+    BetweenScene bet = new BetweenScene();
     
 
     cardpanel.add(start, "StartScene");
     cardpanel.add(game, "GameScene");
     cardpanel.add(end, "EndScene");
+    cardpanel.add(bet, "BetweenScene");
     contentPane.add(cardpanel);
 
   }
@@ -66,23 +68,16 @@ public class MasterScene extends JFrame{
     if(s == "GameScene"){
       kyecont = GSkey;
       addKeyListener(kyecont); //keyを更新
-      game.reset_score();
       game.gamestart();
     }else if(s == "EndScene"){
       removeKeyListener(kyecont);
     }else if(s == "StartScene"){
+      game.reset_score();
       removeKeyListener(kyecont);
+    }else if(s =="BetweenScene"){
     }
   }
 
-  /**
-   * ゲーム終了
-   */
-  public void end(){
-    setVisible(false); 
-    dispose(); 
-    System.exit(0); 
-  }
   static MasterScene get_instance(){
     return master;
   }

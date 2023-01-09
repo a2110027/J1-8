@@ -52,7 +52,6 @@ class ExitPop extends JPanel implements ActionListener{
         player.speed.set_v(0, 0);
         player.timer.stop(); 
         gs.score = 0; gs.time = 0; //初期化
-
         ms.ChangePanel("StartScene");
        }else if(b == "continue"){
         this.setVisible(false);
